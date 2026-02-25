@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>wsup.ai – Australia Unavailable</title>
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --bg-page: #171717;
+      --bg-dark: #0d0d0d;
+      --bg-card: rgba(255,255,255,0.05);
+      --border-light: rgba(255,255,255,0.1);
+      --text-title: #ffffff;
+      --text-body: rgba(255,255,255,0.7);
+      --text-small: rgba(255,255,255,0.6);
+      --text-label: rgba(255,255,255,0.5);
+      --accent-purple: #4a3ec6;
+      --accent-blue: #0083ff;
+      --accent-gold: #f4da5c;
+      --gradient-hero: linear-gradient(-12deg, #0083ff 12%, #b42ef9 32%, #ffbe4e 84%);
+      --font-primary: 'Rubik', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 414px;
+      height: 896px;
+      overflow: hidden;
+      font-family: var(--font-primary);
+      background: var(--bg-dark);
+      color: var(--text-title);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── BACKGROUND SCREEN ── */
+    .bg-screen {
+      position: absolute;
+      inset: 0;
+      background: var(--bg-dark);
+      z-index: 0;
+    }
+
+    .status-bar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 20px 10px;
+      color: var(--text-title); font-size: 12px; font-weight: 600;
+    }
+    .status-right { display: flex; gap: 6px; align-items: center; }
+
+    .browser-bar {
+      margin: 0 16px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border-light);
+      border-radius: 10px; padding: 8px 14px;
+      display: flex; align-items: center; gap: 6px;
+      color: var(--text-label); font-size: 13px;
+    }
+    .browser-bar .reload { margin-left: auto; }
+
+    .app-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .bg-logo { display: flex; align-items: center; gap: 8px; }
+
+    .header-icons { display: flex; gap: 8px; align-items: center; }
+    .icon-btn {
+      width: 34px; height: 34px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; position: relative;
+    }
+    .notif-badge {
+      position: absolute; top: -2px; right: -2px;
+      background: #de5a48; color: #fff;
+      font-size: 8px; font-weight: 700;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .coins-btn {
+      background: rgba(244,218,92,0.1);
+      border: 1px solid var(--accent-gold);
+      border-radius: 20px; padding: 4px 10px;
+      color: var(--accent-gold);
+      font-size: 12px; font-weight: 700;
+      display: flex; align-items: center; gap: 4px;
+    }
+
+    .search-row { padding: 8px 16px; display: flex; gap: 8px; align-items: center; }
+    .search-field {
+      flex: 1; background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 10px; padding: 10px 14px;
+      display: flex; align-items: center; gap: 8px;
+      color: var(--text-label); font-size: 14px;
+    }
+
+    .explore-header {
+      padding: 12px 16px 8px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .explore-title {
+      font-size: 11px; font-weight: 600; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--text-label);
+    }
+    .leaderboards { color: var(--accent-gold); font-size: 12px; font-weight: 600; }
+
+    .tags-row { padding: 0 16px 12px; display: flex; gap: 8px; overflow: hidden; }
+    .tag {
+      padding: 6px 16px; border-radius: 20px;
+      font-size: 13px; font-weight: 500; white-space: nowrap;
+    }
+    .tag.active { background: var(--text-title); color: #000; }
+    .tag.inactive {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      color: var(--text-label);
+    }
+
+    .avatar-grid { padding: 0 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .avatar-card {
+      border-radius: 14px; overflow: hidden;
+      position: relative; height: 300px;
+      border: 1px solid var(--border-light);
+    }
+    .avatar-card-gradient {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 120px;
+      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      padding: 12px; display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .avatar-name { color: var(--text-title); font-size: 15px; font-weight: 700; }
+    .avatar-desc { color: var(--text-small); font-size: 11px; margin-top: 2px; }
+    .avatar-tag {
+      margin-top: 6px; display: inline-block;
+      background: var(--bg-card); border: 1px solid var(--border-light);
+      color: var(--text-body); padding: 2px 8px;
+      border-radius: 20px; font-size: 10px;
+    }
+    .card-bg-1 { background: linear-gradient(160deg, #2D4A6B 0%, #4A7A5B 50%, #1A3A2A 100%); }
+    .card-bg-2 { background: linear-gradient(160deg, #3D2A4A 0%, #6B4A3A 50%, #2A1A1A 100%); }
+
+    .bottom-nav {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: rgba(13,13,13,0.8);
+      backdrop-filter: blur(24px);
+      border-top: 1px solid var(--border-light);
+      display: flex; padding: 10px 0 20px;
+    }
+    .bg-nav-item {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; gap: 4px;
+      color: var(--text-label); font-size: 10px;
+    }
+    .bg-nav-item.active { color: var(--text-title); }
+    .nav-icon { font-size: 20px; }
+
+    /* ── OVERLAY ── */
+    .overlay {
+      position: absolute; inset: 0;
+      background: rgba(0, 0, 0, 0.72);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 100;
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+
+    /* ── POPUP ── */
+    .popup {
+      width: 460px;
+      max-width: 100%;
+      background: var(--bg-page);
+      border: 1px solid var(--border-light);
+      border-radius: 24px;
+      padding: 28px 24px 24px;
+      animation: popupIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+      box-shadow:
+        0 0 0 1px rgba(74, 62, 198, 0.15),
+        0 32px 80px rgba(0, 0, 0, 0.8),
+        0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    @keyframes popupIn {
+      from { opacity: 0; transform: translateY(24px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Logo */
+    .popup-logo {
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px; margin-bottom: 24px;
+    }
+    .popup-logo img { display: block; }
+
+    /* Badge — using design system .badge style */
+    .popup-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border-light);
+      border-radius: 50px; padding: 6px 14px;
+      font-size: 12px; font-weight: 500; color: var(--text-body);
+      margin-bottom: 16px;
+      backdrop-filter: blur(12px);
+      align-self: center;
+    }
+    .popup-badge-dot {
+      width: 6px; height: 6px;
+      background: rgba(74,62,198,0.9);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* Headline */
+    .popup-headline {
+      font-size: clamp(16px, 4vw, 22px); font-weight: 600; line-height: 1.2;
+      color: var(--text-title); margin-bottom: 12px; letter-spacing: -0.3px;
+      text-align: center; word-break: break-word;
+    }
+    .popup-headline .gradient-text {
+      background: var(--gradient-hero);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Body */
+    .popup-body {
+      font-size: 13.5px; line-height: 1.65;
+      color: var(--text-body); margin-bottom: 20px;
+    }
+
+    /* Working on — feature-card style */
+    .working-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: 20px; padding: 20px;
+      margin-bottom: 16px;
+      position: relative; overflow: hidden;
+    }
+    .working-section::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(74,62,198,0.5), transparent);
+    }
+    .working-title {
+      font-size: 11px; font-weight: 600; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--text-label); margin-bottom: 14px;
+    }
+    .working-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 7px 0; color: var(--text-body); font-size: 13.5px;
+    }
+    .working-item + .working-item { border-top: 1px solid rgba(255,255,255,0.05); }
+
+    /* step-num style for dots */
+    .check-dot {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: rgba(74,62,198,0.2);
+      border: 1px solid rgba(74,62,198,0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 700; color: #82a1ff;
+      flex-shrink: 0;
+    }
+    .check-dot::after {
+      content: ''; width: 6px; height: 6px;
+      border-radius: 50%; background: var(--accent-purple);
+    }
+
+    /* Status line */
+    .status-line {
+      display: flex; align-items: flex-start; gap: 10px;
+      background: rgba(74,62,198,0.07);
+      border: 1px solid rgba(74,62,198,0.2);
+      border-radius: 12px; padding: 12px 14px;
+      margin-bottom: 20px;
+      color: var(--text-body); font-size: 13px; line-height: 1.55;
+    }
+    .status-icon { font-size: 26px; flex-shrink: 0; align-self: center; }
+
+    /* Contact */
+    .popup-contact {
+      text-align: center;
+      color: var(--text-label); font-size: 12.5px;
+    }
+    .popup-contact a {
+      color: var(--accent-blue);
+      text-decoration: none; font-weight: 500;
+    }
+    .popup-contact a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <!-- ── BACKGROUND SCREEN ── -->
+  <div class="bg-screen">
+    <div class="status-bar">
+      <span>●●● ☰</span>
+      <div class="status-right"><span>9:41</span><span>📶</span><span>🔋</span></div>
+    </div>
+    <div class="browser-bar">
+      <span>🔒</span>
+      <span style="color:var(--text-title)">wsup.ai</span>
+      <span>/sup-ai/</span>
+      <span style="margin-left:auto">↺</span>
+    </div>
+    <div class="app-header">
+      <div class="bg-logo">
+        <img src="https://www.figma.com/api/mcp/asset/5a44b46e-f0b9-4a4a-a090-01439ec368bd" alt="" style="height:28px;width:28px;object-fit:contain;" />
+        <img src="https://www.figma.com/api/mcp/asset/55971240-da49-4983-8148-c1bf387a2ee3" alt="wsup.ai" style="height:15px;width:61px;object-fit:contain;object-position:left center;" />
+      </div>
+      <div class="header-icons">
+        <div class="icon-btn">🔔<div class="notif-badge">7</div></div>
+        <div class="icon-btn">🎭</div>
+        <div class="coins-btn">⭐ 10</div>
+      </div>
+    </div>
+    <div class="search-row">
+      <div class="search-field">🔍 <span>Search a character</span></div>
+      <div style="color:var(--text-label);font-size:11px;font-weight:700;background:var(--bg-card);border:1px solid var(--border-light);padding:6px 10px;border-radius:8px">SPICY</div>
+    </div>
+    <div class="explore-header">
+      <div class="explore-title">EXPLORE ≡</div>
+      <div class="leaderboards">🏆 LEADERBOARDS</div>
+    </div>
+    <div class="tags-row">
+      <div class="tag active">Recommended</div>
+      <div class="tag inactive">Romance</div>
+      <div class="tag inactive">Play</div>
+      <div class="tag inactive">Fun</div>
+    </div>
+    <div class="avatar-grid">
+      <div class="avatar-card card-bg-1">
+        <div class="avatar-card-gradient">
+          <div class="avatar-name">Sarah</div>
+          <div class="avatar-desc">Traveller girl which talks, eats, sleeps about travel...</div>
+          <span class="avatar-tag">Unfiltered</span>
+        </div>
+      </div>
+      <div class="avatar-card card-bg-2">
+        <div class="avatar-card-gradient">
+          <div class="avatar-name">Elle</div>
+          <div class="avatar-desc">AI powered Elle with all the tech ideas a woman could...</div>
+          <span class="avatar-tag">Unfiltered</span>
+        </div>
+      </div>
+    </div>
+    <div class="bottom-nav">
+      <div class="bg-nav-item"><div class="nav-icon">📖</div>Stories</div>
+      <div class="bg-nav-item active"><div class="nav-icon">✦</div>Explore</div>
+      <div class="bg-nav-item"><div class="nav-icon">➕</div>Create</div>
+      <div class="bg-nav-item"><div class="nav-icon">💬</div>Chats</div>
+      <div class="bg-nav-item"><div class="nav-icon">👤</div>Profile</div>
+    </div>
+  </div>
+
+  <!-- ── OVERLAY ── -->
+  <div class="overlay">
+    <div class="popup">
+
+      <!-- Logo -->
+      <div class="popup-logo">
+        <img src="https://www.figma.com/api/mcp/asset/5a44b46e-f0b9-4a4a-a090-01439ec368bd" alt="wsup.ai icon" style="height:36px;width:36px;object-fit:contain;" />
+        <img src="https://www.figma.com/api/mcp/asset/55971240-da49-4983-8148-c1bf387a2ee3" alt="wsup.ai" style="height:22px;width:89px;object-fit:contain;object-position:left center;" />
+      </div>
+
+      <!-- Badge -->
+      <div style="display:flex;justify-content:center;margin-bottom:16px;">
+        <div class="popup-badge" style="margin-bottom:0;">
+          <span class="popup-badge-dot"></span>
+          Service Paused · Australia
+        </div>
+      </div>
+
+      <!-- Headline -->
+      <div class="popup-headline">
+        wsup.ai is temporarily unavailable in <span class="gradient-text">Australia</span>
+      </div>
+
+      <!-- Body -->
+      <div class="popup-body">
+        We have paused our service in Australia to comply with the new Online Safety Codes and Standards enforced by Australia's eSafety Commissioner under the Online Safety Act 2021.
+      </div>
+
+      <!-- Working on -->
+      <div class="working-section">
+        <div class="working-title">What we're working on</div>
+        <div class="working-item"><div class="check-dot"></div>Content safety &amp; moderation systems</div>
+        <div class="working-item"><div class="check-dot"></div>Age assurance measures</div>
+        <div class="working-item"><div class="check-dot"></div>Risk assessment frameworks</div>
+        <div class="working-item"><div class="check-dot"></div>Regulatory compliance reporting</div>
+      </div>
+
+      <!-- Status -->
+      <div class="status-line">
+        <span class="status-icon">⏳</span>
+        <span>We're working full-time to meet every compliance requirement. Service will be restored as soon as we achieve full compliance.</span>
+      </div>
+
+      <!-- Contact -->
+      <div class="popup-contact">
+        Questions? Contact us at <a href="mailto:support@wsup.ai">support@wsup.ai</a>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
