@@ -96,11 +96,11 @@ img { display: block; max-width: 100%; }
   border-radius: var(--r-pill); padding: 11px 22px;
   transition: all 0.22s; white-space: nowrap; touch-action: manipulation;
 }
-.btn-primary {
+.wsup-btn-cta {
   background: var(--accent-purple); color: #fff;
   box-shadow: 0 4px 20px rgba(74,62,198,0.4);
 }
-.btn-primary:hover { background: var(--accent-purple2); color: #fff; transform: translateY(-2px); box-shadow: 0 6px 28px rgba(74,62,198,0.55); }
+.wsup-btn-cta:hover { background: var(--accent-purple2); color: #fff; transform: translateY(-2px); box-shadow: 0 6px 28px rgba(74,62,198,0.55); }
 .btn-white {
   background: #fff; color: var(--accent-purple); font-size: 15px; padding: 13px 28px;
   box-shadow: 0 4px 24px rgba(0,0,0,0.3);
@@ -632,37 +632,37 @@ details[open] summary { border-bottom: 1px solid var(--border-light); }
 .more-posts-title {
   font-size: clamp(1.3rem, 2.5vw, 1.75rem); font-weight: 700; color: var(--text-title);
 }
-.blog-grid {
+.wsup-post-grid {
   display: grid; gap: 1.1rem;
   grid-template-columns: repeat(3, 1fr);
 }
-.mini-card {
+.wsup-post-card {
   background: var(--bg-card); border: 1px solid var(--border-light);
   border-radius: var(--r-lg); overflow: hidden;
   display: block; text-decoration: none; color: inherit;
   transition: border-color 0.22s, transform 0.22s, box-shadow 0.22s;
 }
-.mini-card:hover { border-color: rgba(74,62,198,0.4); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.35); }
-.mini-card-img {
+.wsup-post-card:hover { border-color: rgba(74,62,198,0.4); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.35); }
+.wsup-post-card-img {
   width: 100%; aspect-ratio: 16/9;
   display: flex; align-items: center; justify-content: center;
   font-size: 2.25rem; position: relative; overflow: hidden;
   border-bottom: 1px solid var(--border-light);
 }
-.mini-card-img-bg {
+.wsup-post-card-img-bg {
   position: absolute; inset: 0;
   background: linear-gradient(135deg, rgba(74,62,198,0.16) 0%, rgba(180,46,249,0.09) 100%);
 }
-.mini-card-img-grid {
+.wsup-post-card-img-grid {
   position: absolute; inset: 0;
   background-image: linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);
   background-size: 24px 24px;
 }
-.mini-card-emoji { position: relative; z-index: 1; opacity: 0.5; }
-.mini-card-body { padding: 1.1rem 1.25rem; }
-.mini-card-tag { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #9b8fff; margin-bottom: 0.45rem; }
-.mini-card-title { font-size: 0.92rem; font-weight: 700; color: var(--text-title); line-height: 1.4; margin-bottom: 0.4rem; }
-.mini-card-date { font-size: 0.75rem; color: var(--text-label); }
+.wsup-post-card-emoji { position: relative; z-index: 1; opacity: 0.5; }
+.wsup-post-card-body { padding: 1.1rem 1.25rem; }
+.wsup-post-card-tag { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #9b8fff; margin-bottom: 0.45rem; }
+.wsup-post-card-title { font-size: 0.92rem; font-weight: 700; color: var(--text-title); line-height: 1.4; margin-bottom: 0.4rem; }
+.wsup-post-card-date { font-size: 0.75rem; color: var(--text-label); }
 
 /* ─────────────────────────────────────────
    Footer
@@ -736,7 +736,7 @@ footer::before {
   .post-cta .btn-white { display: block; width: 100%; text-align: center; }
 
   .more-posts { padding: 3rem 1rem; }
-  .blog-grid { gap: 0.85rem; grid-template-columns: repeat(3, 1fr); }
+  .wsup-post-grid { gap: 0.85rem; grid-template-columns: repeat(3, 1fr); }
 
   footer { padding: 2rem 1rem 1.5rem; }
   .footer-inner { flex-direction: column; align-items: flex-start; gap: 1.25rem; }
@@ -747,7 +747,7 @@ footer::before {
    Responsive — narrow tablet (≤ 600px)
 ───────────────────────────────────────── */
 @media (max-width: 600px) {
-  .blog-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+  .wsup-post-grid { grid-template-columns: 1fr; gap: 0.75rem; }
 }
 
 /* ─────────────────────────────────────────
@@ -766,8 +766,8 @@ footer::before {
   .feature-grid { grid-template-columns: 1fr; gap: 8px; }
   .feature-card { padding: 1rem; }
 
-  .blog-grid { grid-template-columns: 1fr; gap: 0.75rem; }
-  .mini-card-img { aspect-ratio: 16/9; }
+  .wsup-post-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+  .wsup-post-card-img { aspect-ratio: 16/9; }
 
   .nav-cta { font-size: 12px; padding: 0.45rem 0.85rem; }
 
@@ -788,7 +788,7 @@ footer::before {
       <img class="logo-title" src="assets/wsup-logo-title.svg" alt="wsup" />
     </a>
     <div class="nav-links">
-      <a class="btn btn-primary" href="https://wsup.ai/explore" target="_blank" rel="noopener">Start Chatting Free</a>
+      <a class="btn wsup-btn-cta" href="https://wsup.ai/explore" target="_blank" rel="noopener">Start Chatting Free</a>
     </div>
     <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -950,7 +950,7 @@ footer::before {
       <div class="cta-box-glow"></div>
       <h3>Experience the Difference Yourself</h3>
       <p>Browse hundreds of AI characters on wsup.ai — no sign-up, no download. Start a conversation in seconds.</p>
-      <a href="https://wsup.ai/explore" class="btn btn-primary" target="_blank" rel="noopener">Explore Free AI Characters</a>
+      <a href="https://wsup.ai/explore" class="btn wsup-btn-cta" target="_blank" rel="noopener">Explore Free AI Characters</a>
     </div>
 
     <!-- Section 3 -->
@@ -1196,44 +1196,44 @@ footer::before {
         <div class="more-posts-eyebrow">Keep Reading</div>
         <h2 class="more-posts-title" id="more-posts-heading">More from the wsup.ai Blog</h2>
       </div>
-      <div class="blog-grid">
+      <div class="wsup-post-grid">
 
-        <a href="https://wsup.ai/blog/ai-character-chat" class="mini-card" target="_blank" rel="noopener">
-          <div class="mini-card-img">
-            <div class="mini-card-img-bg"></div>
-            <div class="mini-card-img-grid"></div>
-            <span class="mini-card-emoji">🎭</span>
+        <a href="https://wsup.ai/blog/ai-character-chat" class="wsup-post-card" target="_blank" rel="noopener">
+          <div class="wsup-post-card-img">
+            <div class="wsup-post-card-img-bg"></div>
+            <div class="wsup-post-card-img-grid"></div>
+            <span class="wsup-post-card-emoji">🎭</span>
           </div>
-          <div class="mini-card-body">
-            <div class="mini-card-tag">Guide</div>
-            <div class="mini-card-title">AI Character Chat: Talk to Any Character You Can Imagine</div>
-            <div class="mini-card-date">Feb 26, 2026</div>
+          <div class="wsup-post-card-body">
+            <div class="wsup-post-card-tag">Guide</div>
+            <div class="wsup-post-card-title">AI Character Chat: Talk to Any Character You Can Imagine</div>
+            <div class="wsup-post-card-date">Feb 26, 2026</div>
           </div>
         </a>
 
-        <a href="https://wsup.ai/blog/free-ai-roleplay-chat" class="mini-card" target="_blank" rel="noopener">
-          <div class="mini-card-img" style="background: linear-gradient(135deg, rgba(180,46,249,0.12) 0%, rgba(74,62,198,0.08) 100%);">
-            <div class="mini-card-img-bg"></div>
-            <div class="mini-card-img-grid"></div>
-            <span class="mini-card-emoji">✨</span>
+        <a href="https://wsup.ai/blog/free-ai-roleplay-chat" class="wsup-post-card" target="_blank" rel="noopener">
+          <div class="wsup-post-card-img" style="background: linear-gradient(135deg, rgba(180,46,249,0.12) 0%, rgba(74,62,198,0.08) 100%);">
+            <div class="wsup-post-card-img-bg"></div>
+            <div class="wsup-post-card-img-grid"></div>
+            <span class="wsup-post-card-emoji">✨</span>
           </div>
-          <div class="mini-card-body">
-            <div class="mini-card-tag">Roleplay</div>
-            <div class="mini-card-title">Free AI Roleplay Chat: No Sign Up, No Downloads</div>
-            <div class="mini-card-date">Feb 26, 2026</div>
+          <div class="wsup-post-card-body">
+            <div class="wsup-post-card-tag">Roleplay</div>
+            <div class="wsup-post-card-title">Free AI Roleplay Chat: No Sign Up, No Downloads</div>
+            <div class="wsup-post-card-date">Feb 26, 2026</div>
           </div>
         </a>
 
-        <a href="https://wsup.ai/blog/best-character-ai-alternatives" class="mini-card" target="_blank" rel="noopener">
-          <div class="mini-card-img" style="background: linear-gradient(135deg, rgba(0,131,255,0.12) 0%, rgba(74,62,198,0.08) 100%);">
-            <div class="mini-card-img-bg"></div>
-            <div class="mini-card-img-grid"></div>
-            <span class="mini-card-emoji">⚡</span>
+        <a href="https://wsup.ai/blog/best-character-ai-alternatives" class="wsup-post-card" target="_blank" rel="noopener">
+          <div class="wsup-post-card-img" style="background: linear-gradient(135deg, rgba(0,131,255,0.12) 0%, rgba(74,62,198,0.08) 100%);">
+            <div class="wsup-post-card-img-bg"></div>
+            <div class="wsup-post-card-img-grid"></div>
+            <span class="wsup-post-card-emoji">⚡</span>
           </div>
-          <div class="mini-card-body">
-            <div class="mini-card-tag">Comparison</div>
-            <div class="mini-card-title">Best Character AI Alternatives in 2026 (Free &amp; No Sign Up)</div>
-            <div class="mini-card-date">Feb 26, 2026</div>
+          <div class="wsup-post-card-body">
+            <div class="wsup-post-card-tag">Comparison</div>
+            <div class="wsup-post-card-title">Best Character AI Alternatives in 2026 (Free &amp; No Sign Up)</div>
+            <div class="wsup-post-card-date">Feb 26, 2026</div>
           </div>
         </a>
 
