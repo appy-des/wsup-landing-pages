@@ -175,7 +175,8 @@ header::after {
   margin-top: 0.75rem !important; background: var(--accent-purple) !important;
   color: #fff !important; border-radius: var(--r-pill) !important;
   padding: 0.75rem 1.5rem !important; text-align: center !important;
-  border-bottom: none !important; font-weight: 600 !important; display: block;
+  border: none !important; font-weight: 600 !important; display: block;
+  font-family: var(--font); font-size: 1rem; cursor: pointer; width: 100%;
 }
 
 /* ─────────────────────────────────────────
@@ -639,7 +640,7 @@ details[open] summary { border-bottom: 1px solid var(--border-light); }
 .wsup-post-card {
   background: var(--bg-card); border: 1px solid var(--border-light);
   border-radius: var(--r-lg); overflow: hidden;
-  display: block; text-decoration: none; color: inherit;
+  display: block; text-decoration: none; color: inherit; cursor: pointer;
   transition: border-color 0.22s, transform 0.22s, box-shadow 0.22s;
 }
 .wsup-post-card:hover { border-color: rgba(74,62,198,0.4); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.35); }
@@ -788,7 +789,7 @@ footer::before {
       <img class="logo-title" src="assets/wsup-logo-title.svg" alt="wsup" />
     </a>
     <div class="nav-links">
-      <a class="btn wsup-btn-cta" href="https://wsup.ai/explore" target="_blank" rel="noopener">Start Chatting Free</a>
+      <button class="btn wsup-btn-cta" type="button" onclick="window.open('https://wsup.ai/explore','_blank','noopener noreferrer')">Start Chatting Free</button>
     </div>
     <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -796,7 +797,7 @@ footer::before {
   </div>
 
   <div class="mobile-menu" id="mobile-menu" role="navigation">
-    <a class="mobile-menu-cta" href="https://wsup.ai/explore" target="_blank" rel="noopener">Start Chatting Free</a>
+    <button class="mobile-menu-cta" type="button" onclick="window.open('https://wsup.ai/explore','_blank','noopener noreferrer');var m=document.getElementById('mobile-menu'),h=document.getElementById('hamburger');m.classList.remove('open');h.classList.remove('open');h.setAttribute('aria-expanded','false');">Start Chatting Free</button>
   </div>
 </header>
 
@@ -950,7 +951,7 @@ footer::before {
       <div class="cta-box-glow"></div>
       <h3>Experience the Difference Yourself</h3>
       <p>Browse hundreds of AI characters on wsup.ai — no sign-up, no download. Start a conversation in seconds.</p>
-      <a href="https://wsup.ai/explore" class="btn wsup-btn-cta" target="_blank" rel="noopener">Explore Free AI Characters</a>
+      <button class="btn wsup-btn-cta" type="button" onclick="window.open('https://wsup.ai/explore','_blank','noopener noreferrer')">Explore Free AI Characters</button>
     </div>
 
     <!-- Section 3 -->
@@ -1145,7 +1146,7 @@ footer::before {
       <div class="post-cta-inner">
         <h2>Ready to Meet Your AI Companion?</h2>
         <p>No sign-up. No download. Start chatting in seconds — completely free.</p>
-        <a href="https://wsup.ai/explore" class="btn btn-white" target="_blank" rel="noopener">Start Chatting Now</a>
+        <button class="btn btn-white" type="button" onclick="window.open('https://wsup.ai/explore','_blank','noopener noreferrer')">Start Chatting Now</button>
       </div>
     </div>
 
@@ -1198,7 +1199,7 @@ footer::before {
       </div>
       <div class="wsup-post-grid">
 
-        <a href="https://wsup.ai/blog/ai-character-chat" class="wsup-post-card" target="_blank" rel="noopener">
+        <div class="wsup-post-card" role="link" tabindex="0" onclick="window.open('https://wsup.ai/blog/ai-character-chat','_blank','noopener noreferrer')" onkeydown="if(event.key==='Enter'||event.key===' ')window.open('https://wsup.ai/blog/ai-character-chat','_blank','noopener noreferrer')" aria-label="AI Character Chat: Talk to Any Character You Can Imagine">
           <div class="wsup-post-card-img">
             <div class="wsup-post-card-img-bg"></div>
             <div class="wsup-post-card-img-grid"></div>
@@ -1209,9 +1210,9 @@ footer::before {
             <div class="wsup-post-card-title">AI Character Chat: Talk to Any Character You Can Imagine</div>
             <div class="wsup-post-card-date">Feb 26, 2026</div>
           </div>
-        </a>
+        </div>
 
-        <a href="https://wsup.ai/blog/free-ai-roleplay-chat" class="wsup-post-card" target="_blank" rel="noopener">
+        <div class="wsup-post-card" role="link" tabindex="0" onclick="window.open('https://wsup.ai/blog/free-ai-roleplay-chat','_blank','noopener noreferrer')" onkeydown="if(event.key==='Enter'||event.key===' ')window.open('https://wsup.ai/blog/free-ai-roleplay-chat','_blank','noopener noreferrer')" aria-label="Free AI Roleplay Chat: No Sign Up, No Downloads">
           <div class="wsup-post-card-img" style="background: linear-gradient(135deg, rgba(180,46,249,0.12) 0%, rgba(74,62,198,0.08) 100%);">
             <div class="wsup-post-card-img-bg"></div>
             <div class="wsup-post-card-img-grid"></div>
@@ -1222,9 +1223,9 @@ footer::before {
             <div class="wsup-post-card-title">Free AI Roleplay Chat: No Sign Up, No Downloads</div>
             <div class="wsup-post-card-date">Feb 26, 2026</div>
           </div>
-        </a>
+        </div>
 
-        <a href="https://wsup.ai/blog/best-character-ai-alternatives" class="wsup-post-card" target="_blank" rel="noopener">
+        <div class="wsup-post-card" role="link" tabindex="0" onclick="window.open('https://wsup.ai/blog/best-character-ai-alternatives','_blank','noopener noreferrer')" onkeydown="if(event.key==='Enter'||event.key===' ')window.open('https://wsup.ai/blog/best-character-ai-alternatives','_blank','noopener noreferrer')" aria-label="Best Character AI Alternatives in 2026">
           <div class="wsup-post-card-img" style="background: linear-gradient(135deg, rgba(0,131,255,0.12) 0%, rgba(74,62,198,0.08) 100%);">
             <div class="wsup-post-card-img-bg"></div>
             <div class="wsup-post-card-img-grid"></div>
@@ -1235,7 +1236,7 @@ footer::before {
             <div class="wsup-post-card-title">Best Character AI Alternatives in 2026 (Free &amp; No Sign Up)</div>
             <div class="wsup-post-card-date">Feb 26, 2026</div>
           </div>
-        </a>
+        </div>
 
       </div>
     </div>
