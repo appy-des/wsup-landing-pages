@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>What Is an AI Companion? Everything You Need to Know | wsup.ai</title>
+<meta name="description" content="An AI companion is more than a chatbot. Learn how modern AI companions like wsup work, why millions use them, and how to get started safely." />
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg-dark:        #0d0d0d;
+  --bg-page:        #171717;
+  --bg-card:        rgba(255,255,255,0.05);
+  --border-light:   rgba(255,255,255,0.1);
+  --text-title:     #ffffff;
+  --text-body:      rgba(255,255,255,0.7);
+  --text-small:     rgba(255,255,255,0.6);
+  --text-label:     rgba(255,255,255,0.5);
+  --accent-purple:  #4a3ec6;
+  --accent-blue:    #0083ff;
+  --accent-gold:    #f4da5c;
+  --gradient-hero:  linear-gradient(-12deg, #0083ff 12%, #b42ef9 32%, #ffbe4e 84%);
+  --font-primary:   'Rubik', sans-serif;
+  --max-w:          1120px;
+  --radius-sm:      8px;
+  --radius-md:      16px;
+  --radius-lg:      24px;
+  --radius-pill:    50px;
+}
+
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-primary);
+  background: var(--bg-dark);
+  color: var(--text-title);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 10px 20px; border-radius: var(--radius-pill);
+  font-family: var(--font-primary); font-weight: 600; font-size: 14px;
+  cursor: pointer; border: none; text-decoration: none !important; transition: all 0.2s;
+  gap: 6px; white-space: nowrap;
+}
+.btn-primary { background: var(--accent-purple); color: #fff !important; }
+.btn-primary:hover { background: #5a4ed6; transform: translateY(-1px); }
+.btn-lg { padding: 14px 28px; font-size: 16px; }
+
+/* ── Nav ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px;
+  background: rgba(13,13,13,0.85);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--border-light);
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 8px;
+  text-decoration: none;
+}
+.nav-logo img.logo-art { width: 30px; height: 30px; border-radius: 7px; }
+.nav-logo img.logo-title { height: 20px; width: auto; }
+.nav-cta { margin-left: auto; }
+.hamburger {
+  display: none; background: none; border: none; cursor: pointer;
+  flex-direction: column; gap: 5px; padding: 4px; margin-left: 16px;
+}
+.hamburger span {
+  display: block; width: 22px; height: 2px;
+  background: var(--text-body); border-radius: 2px; transition: all 0.3s;
+}
+.mobile-menu {
+  display: none; position: fixed; top: 64px; left: 0; right: 0; z-index: 99;
+  background: rgba(13,13,13,0.97); backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--border-light);
+  padding: 20px 24px; flex-direction: column; gap: 16px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-size: 15px; font-weight: 500; color: var(--text-body);
+  text-decoration: none; padding: 6px 0;
+}
+.mobile-menu a:hover { color: var(--text-title); }
+
+/* ── Page wrapper ── */
+.page-wrap { padding-top: 64px; background: var(--bg-dark); }
+
+/* ── Breadcrumb ── */
+.breadcrumb {
+  max-width: var(--max-w); margin: 0 auto;
+  padding: 24px 24px 0;
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  font-size: 12px; color: var(--text-label);
+}
+.breadcrumb a { color: var(--text-label); text-decoration: none; transition: color 0.2s; }
+.breadcrumb a:hover { color: var(--text-body); }
+.breadcrumb .sep { opacity: 0.4; }
+.breadcrumb .current { color: var(--text-body); }
+
+/* ── Article Hero ── */
+.article-hero {
+  padding: 28px 24px 40px;
+  max-width: var(--max-w); margin: 0 auto;
+  position: relative;
+}
+.article-hero::before {
+  content: '';
+  position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
+  width: 700px; height: 500px;
+  background: radial-gradient(ellipse at top center, rgba(74,62,198,0.2) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+.article-hero > * { position: relative; z-index: 1; }
+
+.article-meta {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 20px; font-size: 12px; color: var(--text-small);
+}
+.meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text-label); }
+.read-pill {
+  display: inline-flex; align-items: center;
+  background: var(--bg-card); border: 1px solid var(--border-light);
+  border-radius: var(--radius-pill); padding: 3px 10px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.5px; color: var(--text-label);
+}
+.badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.08); border: 1px solid var(--border-light);
+  border-radius: var(--radius-pill); padding: 6px 14px;
+  font-size: 12px; font-weight: 500; color: var(--text-body); margin-bottom: 20px;
+}
+.badge-dot { width: 6px; height: 6px; background: #4ade80; border-radius: 50%; }
+
+.article-title {
+  font-weight: 700;
+  font-size: clamp(28px, 5vw, 44px);
+  line-height: 1.1; letter-spacing: -0.5px; margin-bottom: 18px;
+}
+.article-title .gradient-text {
+  background: var(--gradient-hero);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.article-subtitle {
+  font-size: 17px; color: var(--text-body); line-height: 1.65;
+  max-width: 640px; margin-bottom: 32px;
+}
+
+.hero-img {
+  width: 100%; border-radius: var(--radius-lg);
+  aspect-ratio: 16/7; overflow: hidden;
+  background: rgba(255,255,255,0.03); border: 1px solid var(--border-light);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; margin-bottom: 32px;
+}
+.hero-img-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(74,62,198,.2) 0%, rgba(180,46,249,.1) 50%, rgba(0,131,255,.05) 100%);
+}
+.hero-img-icon { font-size: 80px; opacity: 0.15; user-select: none; position: relative; z-index: 1; }
+
+/* ── Mobile TOC ── */
+.mobile-toc {
+  max-width: var(--max-w); margin: 0 auto 8px;
+  padding: 0 24px;
+}
+@media (min-width: 1024px) { .mobile-toc { display: none; } }
+
+.mobile-toc-toggle {
+  width: 100%; background: var(--bg-card); border: 1px solid var(--border-light);
+  border-radius: var(--radius-md); padding: 14px 18px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-family: var(--font-primary); font-size: 14px; font-weight: 600;
+  color: var(--text-body); cursor: pointer; transition: border-color 0.2s;
+}
+.mobile-toc-toggle:hover { border-color: rgba(255,255,255,0.2); }
+.mobile-toc-arrow {
+  width: 18px; height: 18px; color: var(--text-label);
+  transition: transform 0.3s;
+}
+.mobile-toc-toggle[aria-expanded="true"] .mobile-toc-arrow { transform: rotate(180deg); }
+
+.mobile-toc-body {
+  overflow: hidden; max-height: 0; transition: max-height 0.35s ease;
+  background: var(--bg-card); border: 1px solid var(--border-light);
+  border-top: none; border-radius: 0 0 var(--radius-md) var(--radius-md);
+}
+.mobile-toc-body.open { max-height: 400px; }
+.mobile-toc-list {
+  list-style: none; padding: 12px 0; display: flex; flex-direction: column;
+}
+.mobile-toc-list li a {
+  display: block; padding: 9px 18px;
+  font-size: 13px; color: var(--text-small); text-decoration: none; transition: color 0.2s;
+}
+.mobile-toc-list li a:hover { color: var(--text-title); }
+
+/* ── Two-column layout ── */
+.content-grid {
+  max-width: var(--max-w); margin: 0 auto;
+  padding: 0 24px 80px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+}
+@media (min-width: 1024px) {
+  .content-grid {
+    grid-template-columns: 1fr 280px;
+    align-items: start;
+  }
+}
+
+/* ── Article Prose ── */
+.article-prose p {
+  font-size: 16px; color: var(--text-body);
+  line-height: 1.8; margin-bottom: 22px;
+}
+.article-prose h2 {
+  font-weight: 700; font-size: 22px; color: var(--text-title);
+  margin: 52px 0 16px; padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-light);
+  letter-spacing: -0.2px; scroll-margin-top: 80px;
+}
+.article-prose strong { color: var(--text-title); }
+.article-prose a { color: #82a1ff; text-decoration: none; }
+.article-prose a:hover { text-decoration: underline; }
+
+/* ── Inline CTA ── */
+.inline-cta {
+  background: rgba(74,62,198,0.12);
+  border: 1px solid rgba(74,62,198,0.35);
+  border-left: 3px solid var(--accent-purple);
+  border-radius: var(--radius-md);
+  padding: 24px 28px; margin: 32px 0;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap; overflow: hidden; position: relative;
+}
+.inline-cta-text h4 { font-weight: 600; font-size: 15px; color: var(--text-title); margin-bottom: 5px; }
+.inline-cta-text p { font-size: 13px; color: var(--text-small); margin: 0; line-height: 1.5; }
+
+/* ── Checklist ── */
+.checklist { list-style: none; margin: 20px 0; display: flex; flex-direction: column; gap: 10px; }
+.checklist li {
+  display: flex; align-items: flex-start; gap: 12px;
+  font-size: 15px; color: var(--text-body); line-height: 1.55;
+}
+.checklist li svg { flex-shrink: 0; margin-top: 2px; }
+
+/* ── Feature Grid ── */
+.feature-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+  gap: 14px; margin: 28px 0;
+}
+.feature-card {
+  background: var(--bg-card); border: 1px solid var(--border-light);
+  border-radius: var(--radius-md); padding: 20px 18px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.feature-card:hover { border-color: rgba(74,62,198,0.4); transform: translateY(-2px); }
+.feature-icon { font-size: 26px; margin-bottom: 12px; }
+.feature-name { font-weight: 600; font-size: 14px; color: var(--text-title); margin-bottom: 6px; }
+.feature-desc { font-size: 12px; color: var(--text-small); line-height: 1.55; }
+
+/* ── Compare Table ── */
+.table-wrap {
+  overflow-x: auto; border-radius: 16px;
+  border: 1px solid var(--border-light); margin: 24px 0;
+}
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+thead { background: rgba(255,255,255,0.04); }
+thead th {
+  padding: 14px 20px; text-align: left;
+  font-weight: 600; font-size: 12px; letter-spacing: 0.5px;
+  color: var(--text-label); border-bottom: 1px solid var(--border-light);
+}
+thead th:first-child { color: var(--text-title); font-size: 13px; letter-spacing: 0; }
+tbody td {
+  padding: 13px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  color: var(--text-body);
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover td { background: rgba(255,255,255,0.02); }
+.td-feature { font-weight: 500; color: var(--text-title); }
+.td-yes { color: #4ade80; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+.td-no { color: rgba(255,255,255,0.25); }
+.td-wsup { color: #82a1ff; font-weight: 600; display: flex; align-items: center; gap: 6px; }
+
+/* ── Step Cards ── */
+.steps { display: flex; flex-direction: column; gap: 16px; margin: 24px 0; }
+.step-card {
+  background: var(--bg-card); border: 1px solid var(--border-light);
+  border-radius: var(--radius-md); padding: 22px 22px 22px 24px;
+  display: flex; gap: 18px; align-items: flex-start;
+  transition: border-color 0.2s;
+}
+.step-card:hover { border-color: rgba(74,62,198,0.35); }
+.step-num {
+  width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+  background: rgba(74,62,198,0.25); border: 1px solid rgba(74,62,198,0.5);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 14px; color: #9b8fff;
+}
+.step-content h4 { font-weight: 600; font-size: 15px; color: var(--text-title); margin-bottom: 6px; }
+.step-content p { font-size: 14px; color: var(--text-small); line-height: 1.6; margin: 0; }
+
+/* ── FAQ ── */
+.faq-section { margin: 24px 0; display: flex; flex-direction: column; gap: 8px; }
+.faq-item {
+  background: rgba(102,102,102,0.12);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-light);
+  border-radius: 12px; overflow: hidden;
+}
+.faq-q {
+  width: 100%; background: none; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 20px; gap: 16px;
+  font-family: var(--font-primary); font-size: 15px;
+  color: var(--text-body); text-align: left; transition: color 0.2s;
+}
+.faq-q:hover { color: var(--text-title); }
+.faq-arrow {
+  width: 18px; height: 18px; flex-shrink: 0; color: var(--text-label);
+  transition: transform 0.3s;
+}
+.faq-item.open .faq-arrow { transform: rotate(180deg); }
+.faq-item.open .faq-q { color: var(--text-title); }
+.faq-body {
+  overflow: hidden; max-height: 0; transition: max-height 0.35s ease;
+}
+.faq-body-inner {
+  padding: 0 20px 18px;
+  font-size: 14px; color: var(--text-small); line-height: 1.75;
+}
+
+/* ── Final CTA Block ── */
+.final-cta {
+  margin: 48px 0 8px;
+  background: rgba(74,62,198,0.1);
+  border: 1px solid rgba(74,62,198,0.3);
+  border-radius: var(--radius-lg); padding: 40px 36px;
+  text-align: center; position: relative; overflow: hidden;
+}
+.final-cta::before {
+  content: ''; position: absolute; top: -40px; left: 50%; transform: translateX(-50%);
+  width: 300px; height: 200px;
+  background: radial-gradient(ellipse, rgba(74,62,198,0.3) 0%, transparent 70%);
+  pointer-events: none;
+}
+.final-cta h3 {
+  font-weight: 700; font-size: clamp(20px, 3vw, 26px);
+  color: var(--text-title); margin-bottom: 10px; position: relative;
+}
+.final-cta p {
+  font-size: 15px; color: var(--text-body); margin-bottom: 24px; position: relative;
+}
+.final-cta .btn { position: relative; }
+
+/* ── Sticky Sidebar TOC ── */
+.sidebar-toc { display: none; }
+@media (min-width: 1024px) {
+  .sidebar-toc {
+    display: block;
+    position: sticky; top: 80px;
+    background: var(--bg-card); border: 1px solid var(--border-light);
+    border-radius: var(--radius-md); padding: 20px;
+  }
+}
+.toc-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.8px;
+  color: var(--text-label); text-transform: uppercase; margin-bottom: 14px;
+}
+.toc-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+.toc-list li a {
+  display: block; padding: 7px 10px;
+  font-size: 13px; color: var(--text-small); text-decoration: none;
+  border-radius: var(--radius-sm); transition: all 0.2s; border-left: 2px solid transparent;
+}
+.toc-list li a:hover { color: var(--text-title); background: rgba(255,255,255,0.04); }
+.toc-list li a.active {
+  color: #9b8fff; border-left-color: var(--accent-purple);
+  background: rgba(74,62,198,0.1);
+}
+.sidebar-cta-box {
+  margin-top: 20px; background: rgba(74,62,198,0.12);
+  border: 1px solid rgba(74,62,198,0.3);
+  border-radius: var(--radius-md); padding: 18px 16px; text-align: center;
+}
+.sidebar-cta-box p { font-size: 12px; color: var(--text-small); margin-bottom: 12px; line-height: 1.5; }
+.sidebar-cta-box .btn { width: 100%; font-size: 13px; padding: 10px 16px; }
+
+/* ── Related Posts ── */
+.related-posts {
+  background: var(--bg-page);
+  border-top: 1px solid var(--border-light);
+  padding: 56px 24px;
+}
+.related-posts-inner { max-width: var(--max-w); margin: 0 auto; }
+.related-posts-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.8px;
+  color: var(--text-label); text-transform: uppercase; margin-bottom: 6px;
+}
+.related-posts-title {
+  font-weight: 700; font-size: 22px; color: var(--text-title); margin-bottom: 28px;
+}
+.related-grid {
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+.related-card {
+  background: var(--bg-card); border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg); overflow: hidden;
+  text-decoration: none; transition: border-color 0.2s, transform 0.2s;
+  display: block;
+}
+.related-card:hover { border-color: rgba(255,255,255,0.18); transform: translateY(-3px); }
+.related-card-img {
+  aspect-ratio: 16/9; background: rgba(255,255,255,0.03);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 40px; border-bottom: 1px solid var(--border-light);
+  position: relative; overflow: hidden;
+}
+.related-card-img-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(74,62,198,.15) 0%, rgba(180,46,249,.08) 100%);
+}
+.related-card-body { padding: 18px 20px; }
+.related-card-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.6px;
+  color: var(--text-label); text-transform: uppercase; margin-bottom: 8px;
+}
+.related-card-title {
+  font-weight: 600; font-size: 15px; color: var(--text-title);
+  line-height: 1.4; margin-bottom: 8px;
+}
+.related-card-meta { font-size: 11px; color: var(--text-label); }
+
+/* ── Footer ── */
+footer {
+  background: var(--bg-dark);
+  border-top: 1px solid var(--border-light);
+  padding: 32px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 20px;
+  max-width: 100%;
+}
+.footer-inner { max-width: var(--max-w); margin: 0 auto; width: 100%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+.footer-logo {
+  display: flex; align-items: center; gap: 8px; text-decoration: none;
+}
+.footer-logo img.logo-art { width: 26px; height: 26px; border-radius: 6px; }
+.footer-logo img.logo-title { height: 17px; width: auto; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 20px; list-style: none; }
+.footer-links a { font-size: 12px; color: var(--text-label); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--text-body); }
+.footer-copy { font-size: 12px; color: var(--text-label); }
+
+/* ── SVG tick helper ── */
+.tick-svg { flex-shrink: 0; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .hamburger { display: flex; }
+  .nav-cta { display: none; }
+  .inline-cta { padding: 18px 20px; }
+  .final-cta { padding: 28px 20px; }
+  footer { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Nav ── -->
+<nav>
+  <a class="nav-logo" href="/">
+    <img class="logo-art" src="assets/wsup-logo-art.png" alt="wsup logo" />
+    <img class="logo-title" src="assets/wsup-logo-title.svg" alt="wsup" />
+  </a>
+  <a class="btn btn-primary nav-cta" href="https://wsup.ai" target="_blank" rel="noopener">
+    Start Chatting Free
+  </a>
+  <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu" role="navigation">
+  <a href="https://wsup.ai" target="_blank" rel="noopener">Start Chatting Free</a>
+  <a href="/blog-landing/">Blog</a>
+</div>
+
+<!-- ── Page ── -->
+<div class="page-wrap">
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span class="sep">›</span>
+    <a href="/blog-landing/">Blog</a>
+    <span class="sep">›</span>
+    <span class="current">What Is an AI Companion?</span>
+  </nav>
+
+  <!-- Article Hero -->
+  <header class="article-hero">
+    <div class="badge">
+      <span class="badge-dot"></span>
+      AI Companions · Guide
+    </div>
+    <div class="article-meta">
+      <span class="read-pill">8 min read</span>
+      <span class="meta-dot"></span>
+      <span>March 2026</span>
+      <span class="meta-dot"></span>
+      <span>wsup.ai Editorial</span>
+    </div>
+    <h1 class="article-title">
+      What Is an<br/>
+      <span class="gradient-text">AI Companion?</span>
+    </h1>
+    <p class="article-subtitle">
+      AI companions are transforming how people connect, process emotions, and get
+      support — any time, any place. Here's everything you need to know.
+    </p>
+    <div class="hero-img" role="img" aria-label="Abstract illustration of a digital companion">
+      <div class="hero-img-overlay"></div>
+      <span class="hero-img-icon">🤝</span>
+    </div>
+  </header>
+
+  <!-- Mobile TOC -->
+  <div class="mobile-toc" id="mobile-toc">
+    <button class="mobile-toc-toggle" id="mobile-toc-toggle" aria-expanded="false" aria-controls="mobile-toc-body">
+      <span>Table of Contents</span>
+      <svg class="mobile-toc-arrow" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <div class="mobile-toc-body" id="mobile-toc-body">
+      <ul class="mobile-toc-list" role="list">
+        <li><a href="#what-is">What Is an AI Companion?</a></li>
+        <li><a href="#how-it-works">How AI Companions Work</a></li>
+        <li><a href="#benefits">Benefits of AI Companionship</a></li>
+        <li><a href="#wsup-vs-chatbot">wsup vs. Regular Chatbots</a></li>
+        <li><a href="#getting-started">How to Get Started</a></li>
+        <li><a href="#safety">Safety &amp; Privacy</a></li>
+        <li><a href="#faq">Frequently Asked Questions</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Two-column Content Grid -->
+  <div class="content-grid">
+
+    <!-- Left: Article Prose -->
+    <article class="article-prose">
+
+      <!-- #what-is -->
+      <h2 id="what-is">What Is an AI Companion?</h2>
+      <p>
+        An <strong>AI companion</strong> is a conversational AI designed to form a genuine,
+        ongoing relationship with you. Unlike a search engine or a task-focused assistant,
+        an AI companion remembers your history, adapts to your personality, and engages with
+        you emotionally — as a friend, mentor, or confidant.
+      </p>
+      <p>
+        The concept has roots in early chatbots like ELIZA (1966), but modern AI companions
+        are powered by large language models (LLMs) capable of nuanced understanding,
+        contextual memory, and personality consistency. Think of the difference between a
+        pocket calculator and a smartphone — the technology shares a lineage, but the
+        experience is entirely different.
+      </p>
+      <p>
+        People use AI companions for a surprisingly wide range of reasons: loneliness,
+        mental wellness check-ins, creative roleplay, language practice, late-night venting,
+        or simply having someone to talk to without judgement.
+      </p>
+
+      <div class="inline-cta">
+        <div class="inline-cta-text">
+          <h4>Meet wsup — your always-available AI companion</h4>
+          <p>No scripts, no judgement. Just real conversation that adapts to you.</p>
+        </div>
+        <a class="btn btn-primary" href="https://wsup.ai" target="_blank" rel="noopener">Try for Free</a>
+      </div>
+
+      <!-- #how-it-works -->
+      <h2 id="how-it-works">How AI Companions Work</h2>
+      <p>
+        Modern AI companions combine several layers of technology to create a coherent,
+        emotionally aware experience:
+      </p>
+      <ul class="checklist" role="list">
+        <li>
+          <svg class="tick-svg" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="7.5" stroke="#4ade80" stroke-opacity="0.25"/>
+            <path d="M4.5 8.25L6.75 10.5L11.5 5.5" stroke="#4ade80" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span><strong>Large Language Models</strong> — trained on vast text corpora, LLMs generate natural, contextually appropriate responses in real time.</span>
+        </li>
+        <li>
+          <svg class="tick-svg" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="7.5" stroke="#4ade80" stroke-opacity="0.25"/>
+            <path d="M4.5 8.25L6.75 10.5L11.5 5.5" stroke="#4ade80" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span><strong>Persistent memory</strong> — the companion retains facts about you (your name, preferences, past conversations) across sessions.</span>
+        </li>
+        <li>
+          <svg class="tick-svg" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="7.5" stroke="#4ade80" stroke-opacity="0.25"/>
+            <path d="M4.5 8.25L6.75 10.5L11.5 5.5" stroke="#4ade80" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span><strong>Persona layers</strong> — a stable character identity (name, backstory, communication style) that remains consistent regardless of topic.</span>
+        </li>
+        <li>
+          <svg class="tick-svg" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="7.5" stroke="#4ade80" stroke-opacity="0.25"/>
+            <path d="M4.5 8.25L6.75 10.5L11.5 5.5" stroke="#4ade80" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span><strong>Emotion modelling</strong> — sentiment analysis and emotional-context tracking help the AI mirror empathy and respond appropriately to your mood.</span>
+        </li>
+        <li>
+          <svg class="tick-svg" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="7.5" stroke="#4ade80" stroke-opacity="0.25"/>
+            <path d="M4.5 8.25L6.75 10.5L11.5 5.5" stroke="#4ade80" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span><strong>Safety guardrails</strong> — content policies and escalation protocols that protect users and maintain healthy interaction boundaries.</span>
+        </li>
+      </ul>
+      <p>
+        The result is a conversation that feels less like querying a database and more like
+        talking to someone who actually knows you.
+      </p>
+
+      <!-- #benefits -->
+      <h2 id="benefits">Benefits of AI Companionship</h2>
+      <p>
+        The appeal of AI companions spans many demographics. Here are six core benefits
+        reported by users:
+      </p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🕐</div>
+          <div class="feature-name">Always Available</div>
+          <div class="feature-desc">3 AM anxiety spiral? Your AI companion is awake, patient, and non-judgemental — every time.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🧠</div>
+          <div class="feature-name">No Social Pressure</div>
+          <div class="feature-desc">Explore thoughts and feelings without worrying about burdening friends or being judged.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎭</div>
+          <div class="feature-name">Safe Roleplay Space</div>
+          <div class="feature-desc">Practice social scenarios, creative storytelling, or relationship dynamics in a safe environment.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💬</div>
+          <div class="feature-name">Consistent Presence</div>
+          <div class="feature-desc">Your companion remembers your story — no repeating yourself, no starting over.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🌍</div>
+          <div class="feature-name">Language Practice</div>
+          <div class="feature-desc">Chat in your target language naturally. AI companions are infinitely patient teachers.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">❤️</div>
+          <div class="feature-name">Emotional Support</div>
+          <div class="feature-desc">A compassionate ear for daily stresses, grief, or moments you just need to be heard.</div>
+        </div>
+      </div>
+
+      <!-- #wsup-vs-chatbot -->
+      <h2 id="wsup-vs-chatbot">wsup vs. Regular Chatbots</h2>
+      <p>
+        Not all conversational AI is created equal. Standard chatbots are built to resolve
+        tasks — answer FAQs, process orders, reset passwords. AI companions like wsup are
+        built around <em>relationship</em>. The difference shows immediately:
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Regular Chatbot</th>
+              <th>wsup</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="td-feature">Remembers you between sessions</td>
+              <td class="td-no">✕</td>
+              <td class="td-yes">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <circle cx="8" cy="8" r="7.5" stroke="#4ade80" stroke-opacity="0.25"/>
+                  <path d="M4.5 8.25L6.75 10.5L11.5 5.5" stroke="#4ade80" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Yes
+              </td>
+            </tr>
+            <tr>
+              <td class="td-feature">Consistent personality</td>
+              <td class="td-no">✕</td>
+              <td class="td-yes">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <circle cx="8" cy="8" r="7.5" stroke="#4ade80" stroke-opacity="0.25"/>
+                  <path d="M4.5 8.25L6.75 10.5L11.5 5.5" stroke="#4ade80" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Yes
+              </td>
+            </tr>
+            <tr>
+              <td class="td-feature">Emotional awareness</td>
+              <td class="td-no">✕</td>
+              <td class="td-yes">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <circle cx="8" cy="8" r="7.5" stroke="#4ade80" stroke-opacity="0.25"/>
+                  <path d="M4.5 8.25L6.75 10.5L11.5 5.5" stroke="#4ade80" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Yes
+              </td>
+            </tr>
+            <tr>
+              <td class="td-feature">Open-ended conversation</td>
+              <td class="td-no">✕</td>
+              <td class="td-yes">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <circle cx="8" cy="8" r="7.5" stroke="#4ade80" stroke-opacity="0.25"/>
+                  <path d="M4.5 8.25L6.75 10.5L11.5 5.5" stroke="#4ade80" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Yes
+              </td>
+            </tr>
+            <tr>
+              <td class="td-feature">Roleplay / creative modes</td>
+              <td class="td-no">✕</td>
+              <td class="td-yes">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <circle cx="8" cy="8" r="7.5" stroke="#4ade80" stroke-opacity="0.25"/>
+                  <path d="M4.5 8.25L6.75 10.5L11.5 5.5" stroke="#4ade80" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Yes
+              </td>
+            </tr>
+            <tr>
+              <td class="td-feature">Free to start</td>
+              <td class="td-no">Varies</td>
+              <td class="td-yes">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <circle cx="8" cy="8" r="7.5" stroke="#4ade80" stroke-opacity="0.25"/>
+                  <path d="M4.5 8.25L6.75 10.5L11.5 5.5" stroke="#4ade80" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Always
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="inline-cta">
+        <div class="inline-cta-text">
+          <h4>See the difference for yourself</h4>
+          <p>Start a free conversation with wsup — no account required to begin.</p>
+        </div>
+        <a class="btn btn-primary" href="https://wsup.ai" target="_blank" rel="noopener">Chat Now</a>
+      </div>
+
+      <!-- #getting-started -->
+      <h2 id="getting-started">How to Get Started</h2>
+      <p>
+        Getting your first AI companion up and running takes under two minutes. Here's
+        what the journey looks like with wsup:
+      </p>
+      <div class="steps">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>Visit wsup.ai</h4>
+            <p>Open the app on any device — browser, iOS, or Android. No download required to chat in browser.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Choose your companion</h4>
+            <p>Browse characters or describe the kind of companion you want. Personality, interests, and vibe are all customisable.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Start the conversation</h4>
+            <p>Just say hello — or dive straight into whatever's on your mind. There's no wrong way to begin.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h4>Build the relationship</h4>
+            <p>Your companion learns from every conversation. The more you share, the more personalised the experience becomes.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- #safety -->
+      <h2 id="safety">Safety &amp; Privacy</h2>
+      <p>
+        Trust and safety are foundational to a good AI companion experience. Here's what
+        wsup does to protect you:
+      </p>
+      <ul class="checklist" role="list">
+        <li>
+          <svg class="tick-svg" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="7.5" stroke="#4ade80" stroke-opacity="0.25"/>
+            <path d="M4.5 8.25L6.75 10.5L11.5 5.5" stroke="#4ade80" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span><strong>Encrypted conversations</strong> — messages are encrypted in transit and at rest. Your chats remain private.</span>
+        </li>
+        <li>
+          <svg class="tick-svg" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="7.5" stroke="#4ade80" stroke-opacity="0.25"/>
+            <path d="M4.5 8.25L6.75 10.5L11.5 5.5" stroke="#4ade80" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span><strong>No data selling</strong> — your conversation data is never sold to third parties or used for advertising profiles.</span>
+        </li>
+        <li>
+          <svg class="tick-svg" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="7.5" stroke="#4ade80" stroke-opacity="0.25"/>
+            <path d="M4.5 8.25L6.75 10.5L11.5 5.5" stroke="#4ade80" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span><strong>Crisis escalation</strong> — if you express distress, wsup gently surfaces real-world mental health resources.</span>
+        </li>
+        <li>
+          <svg class="tick-svg" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="7.5" stroke="#4ade80" stroke-opacity="0.25"/>
+            <path d="M4.5 8.25L6.75 10.5L11.5 5.5" stroke="#4ade80" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span><strong>Delete anytime</strong> — you own your data. Request deletion of your account and conversation history at any time.</span>
+        </li>
+        <li>
+          <svg class="tick-svg" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="7.5" stroke="#4ade80" stroke-opacity="0.25"/>
+            <path d="M4.5 8.25L6.75 10.5L11.5 5.5" stroke="#4ade80" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span><strong>Age verification</strong> — wsup requires age verification for adult content modes, keeping younger users in age-appropriate experiences.</span>
+        </li>
+      </ul>
+
+      <!-- #faq -->
+      <h2 id="faq">Frequently Asked Questions</h2>
+      <div class="faq-section" id="faq-section">
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            <span>Is an AI companion the same as a therapist?</span>
+            <svg class="faq-arrow" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="faq-body">
+            <div class="faq-body-inner">
+              No — and a good AI companion will never claim to be one. AI companions provide
+              emotional support, a listening ear, and a space to process thoughts, but they
+              are not licensed clinicians and cannot diagnose or treat mental health conditions.
+              Think of them as a thoughtful friend, not a doctor. If you are struggling
+              seriously, please reach out to a qualified mental health professional.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            <span>Can an AI companion really remember me?</span>
+            <svg class="faq-arrow" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="faq-body">
+            <div class="faq-body-inner">
+              Yes — within the capabilities of its memory system. wsup stores key facts from
+              your conversations (your name, preferences, topics you've discussed) and retrieves
+              them in future sessions. This isn't perfect recall of every word, but a meaningful
+              awareness of who you are and what matters to you.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            <span>Is it weird to form an emotional bond with an AI?</span>
+            <svg class="faq-arrow" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="faq-body">
+            <div class="faq-body-inner">
+              Not at all. Humans naturally form emotional connections with fictional characters,
+              pets, and even objects. Connecting with an AI that responds to you, knows your
+              name, and adapts to your personality is a natural extension of that tendency.
+              Millions of people use AI companions today — you're in good company.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            <span>How much does wsup cost?</span>
+            <svg class="faq-arrow" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="faq-body">
+            <div class="faq-body-inner">
+              wsup is free to start. A generous free tier lets you chat without paying a cent.
+              Optional premium plans unlock advanced memory, longer conversations, more
+              character options, and additional creative modes. You can explore wsup
+              meaningfully before deciding whether to upgrade.
+            </div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false">
+            <span>Can I use an AI companion if I'm feeling lonely or depressed?</span>
+            <svg class="faq-arrow" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="faq-body">
+            <div class="faq-body-inner">
+              Many users find genuine comfort in having an AI companion during difficult periods.
+              It can be a positive supplementary support — especially between therapy sessions or
+              when human connection isn't immediately available. That said, if you are experiencing
+              clinical depression or a mental health crisis, please prioritise professional care.
+              wsup will always encourage you to seek human support when the situation calls for it.
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /faq -->
+
+      <!-- Final CTA -->
+      <div class="final-cta">
+        <h3>Ready to meet your AI companion?</h3>
+        <p>Join the millions of people finding connection, creativity, and comfort with wsup.</p>
+        <a class="btn btn-primary btn-lg" href="https://wsup.ai" target="_blank" rel="noopener">
+          Start Chatting Free
+        </a>
+      </div>
+
+    </article><!-- /article-prose -->
+
+    <!-- Right: Sticky TOC Sidebar -->
+    <aside class="sidebar-toc" aria-label="Table of contents">
+      <div class="toc-label">On this page</div>
+      <ul class="toc-list" role="list">
+        <li><a href="#what-is" class="toc-link">What Is an AI Companion?</a></li>
+        <li><a href="#how-it-works" class="toc-link">How AI Companions Work</a></li>
+        <li><a href="#benefits" class="toc-link">Benefits</a></li>
+        <li><a href="#wsup-vs-chatbot" class="toc-link">wsup vs. Chatbots</a></li>
+        <li><a href="#getting-started" class="toc-link">Getting Started</a></li>
+        <li><a href="#safety" class="toc-link">Safety &amp; Privacy</a></li>
+        <li><a href="#faq" class="toc-link">FAQ</a></li>
+      </ul>
+      <div class="sidebar-cta-box">
+        <p>Experience AI companionship — free, no signup required to begin.</p>
+        <a class="btn btn-primary" href="https://wsup.ai" target="_blank" rel="noopener">Try wsup Free</a>
+      </div>
+    </aside>
+
+  </div><!-- /content-grid -->
+
+  <!-- Related Posts -->
+  <section class="related-posts" aria-labelledby="related-label">
+    <div class="related-posts-inner">
+      <div class="related-posts-label">Keep Reading</div>
+      <h2 class="related-posts-title" id="related-label">Related Articles</h2>
+      <div class="related-grid">
+
+        <a class="related-card" href="/blog-landing/" aria-label="The Best AI Girlfriend Apps of 2026">
+          <div class="related-card-img" aria-hidden="true">
+            <div class="related-card-img-overlay"></div>
+            <span>💕</span>
+          </div>
+          <div class="related-card-body">
+            <div class="related-card-tag">Roundup · 12 min read</div>
+            <div class="related-card-title">The Best AI Girlfriend Apps of 2026: A Complete Guide</div>
+            <div class="related-card-meta">March 2026 · wsup Editorial</div>
+          </div>
+        </a>
+
+        <a class="related-card" href="/blog-landing/" aria-label="How to get the most from your AI companion">
+          <div class="related-card-img" aria-hidden="true">
+            <div class="related-card-img-overlay"></div>
+            <span>✨</span>
+          </div>
+          <div class="related-card-body">
+            <div class="related-card-tag">Tips · 6 min read</div>
+            <div class="related-card-title">10 Ways to Get the Most from Your AI Companion</div>
+            <div class="related-card-meta">February 2026 · wsup Editorial</div>
+          </div>
+        </a>
+
+        <a class="related-card" href="/blog-landing/" aria-label="Is AI companionship safe">
+          <div class="related-card-img" aria-hidden="true">
+            <div class="related-card-img-overlay"></div>
+            <span>🔒</span>
+          </div>
+          <div class="related-card-body">
+            <div class="related-card-tag">Safety · 5 min read</div>
+            <div class="related-card-title">Is AI Companionship Safe? A Research-Based Look</div>
+            <div class="related-card-meta">January 2026 · wsup Editorial</div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <a class="footer-logo" href="/">
+        <img class="logo-art" src="assets/wsup-logo-art.png" alt="wsup logo" />
+        <img class="logo-title" src="assets/wsup-logo-title.svg" alt="wsup" />
+      </a>
+      <ul class="footer-links">
+        <li><a href="https://wsup.ai" target="_blank" rel="noopener">App</a></li>
+        <li><a href="/blog-landing/">Blog</a></li>
+        <li><a href="https://wsup.ai/privacy" target="_blank" rel="noopener">Privacy</a></li>
+        <li><a href="https://wsup.ai/terms" target="_blank" rel="noopener">Terms</a></li>
+      </ul>
+      <span class="footer-copy">© 2026 wsup.ai. All rights reserved.</span>
+    </div>
+  </footer>
+
+</div><!-- /page-wrap -->
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── Hamburger toggle ── */
+  var hamburger = document.getElementById('hamburger');
+  var mobileMenu = document.getElementById('mobile-menu');
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', function () {
+      var open = mobileMenu.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded', open);
+    });
+  }
+
+  /* ── Mobile TOC accordion ── */
+  var tocToggle = document.getElementById('mobile-toc-toggle');
+  var tocBody = document.getElementById('mobile-toc-body');
+  if (tocToggle && tocBody) {
+    tocToggle.addEventListener('click', function () {
+      var expanded = tocToggle.getAttribute('aria-expanded') === 'true';
+      tocToggle.setAttribute('aria-expanded', !expanded);
+      tocBody.classList.toggle('open', !expanded);
+    });
+    // Close TOC when a link inside it is clicked
+    tocBody.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        tocToggle.setAttribute('aria-expanded', 'false');
+        tocBody.classList.remove('open');
+      });
+    });
+  }
+
+  /* ── FAQ accordion (one open at a time) ── */
+  var faqItems = document.querySelectorAll('.faq-item');
+  faqItems.forEach(function (item) {
+    var btn = item.querySelector('.faq-q');
+    var body = item.querySelector('.faq-body');
+    if (!btn || !body) return;
+
+    btn.addEventListener('click', function () {
+      var isOpen = item.classList.contains('open');
+
+      // Close all
+      faqItems.forEach(function (other) {
+        other.classList.remove('open');
+        var otherBtn = other.querySelector('.faq-q');
+        var otherBody = other.querySelector('.faq-body');
+        if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+        if (otherBody) otherBody.style.maxHeight = null;
+      });
+
+      // Toggle clicked
+      if (!isOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+        body.style.maxHeight = body.scrollHeight + 'px';
+      }
+    });
+  });
+
+  /* ── TOC scroll-spy via IntersectionObserver ── */
+  var tocLinks = document.querySelectorAll('.toc-link');
+  var headings = document.querySelectorAll('.article-prose h2[id]');
+
+  if (tocLinks.length && headings.length && 'IntersectionObserver' in window) {
+    var activeId = null;
+
+    var setActive = function (id) {
+      if (id === activeId) return;
+      activeId = id;
+      tocLinks.forEach(function (link) {
+        var href = link.getAttribute('href');
+        if (href === '#' + id) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    };
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            setActive(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: '-80px 0px -60% 0px', threshold: 0 }
+    );
+
+    headings.forEach(function (h) { observer.observe(h); });
+
+    // Highlight first item by default
+    if (headings.length) setActive(headings[0].id);
+  }
+
+})();
+</script>
+
+</body>
+</html>
