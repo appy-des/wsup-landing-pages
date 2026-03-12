@@ -302,7 +302,7 @@ const STORIES = [
 const TAG_CONFIG = {
   "chat-leader":   { label: "💬 Chat Leader",   border: "rgba(0,131,255,0.50)",   glow: "0 0 8px rgba(0,131,255,0.40), 0 0 16px rgba(0,131,255,0.20)"   },
   "fan-fave":      { label: "❤️ Fan Fave",       border: "rgba(236,72,153,0.50)",  glow: "0 0 8px rgba(236,72,153,0.40), 0 0 16px rgba(236,72,153,0.20)"  },
-  "creators-pick": { label: "⭐ Creator's Pick", border: "rgba(244,218,92,0.50)",  glow: "0 0 8px rgba(244,218,92,0.40), 0 0 16px rgba(244,218,92,0.20)"  },
+  "creators-pick": { label: "⭐ Featured",       border: "rgba(244,218,92,0.50)",  glow: "0 0 8px rgba(244,218,92,0.40), 0 0 16px rgba(244,218,92,0.20)"  },
   "trending":      { label: "📈 Trending",       border: "rgba(74,222,128,0.50)",  glow: "0 0 8px rgba(74,222,128,0.40), 0 0 16px rgba(74,222,128,0.20)"  },
 };
 
@@ -469,6 +469,104 @@ function MenuSheet({ open, onClose, onLogout }) {
           onLogout
         )}
         {/* Cancel */}
+        <div style={{ height: 1, background: "rgba(255,255,255,0.07)", margin: "4px 0" }} />
+        <button
+          onClick={onClose}
+          onMouseEnter={e => e.currentTarget.style.background = "rgba(255,255,255,0.07)"}
+          onMouseLeave={e => e.currentTarget.style.background = "none"}
+          onMouseDown={e => e.currentTarget.style.background = "rgba(255,255,255,0.10)"}
+          onMouseUp={e => e.currentTarget.style.background = "rgba(255,255,255,0.07)"}
+          style={{
+            width: "100%", padding: "14px 24px",
+            background: "none", border: "none", cursor: "pointer",
+            fontFamily: "inherit", fontSize: 15, fontWeight: 500,
+            color: "rgba(255,255,255,0.50)", textAlign: "center",
+            transition: "background 0.12s",
+          }}>
+          Cancel
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function CharacterMenuSheet({ open, onClose, character }) {
+  if (!open) return null;
+  const item = (icon, label, color, onClick) => {
+    const isDestructive = color === "#f87171";
+    const hoverBg  = isDestructive ? "rgba(248,113,113,0.08)" : "rgba(255,255,255,0.07)";
+    const pressBg  = isDestructive ? "rgba(248,113,113,0.14)" : "rgba(255,255,255,0.10)";
+    return (
+      <button
+        onClick={() => { onClose(); onClick && onClick(); }}
+        onMouseEnter={e => e.currentTarget.style.background = hoverBg}
+        onMouseLeave={e => e.currentTarget.style.background = "none"}
+        onMouseDown={e => e.currentTarget.style.background = pressBg}
+        onMouseUp={e => e.currentTarget.style.background = hoverBg}
+        style={{
+          display: "flex", alignItems: "center", gap: 14,
+          width: "calc(100% - 16px)", margin: "0 8px", padding: "14px 16px",
+          background: "none", border: "none", cursor: "pointer", borderRadius: 8,
+          fontFamily: "inherit", fontSize: 15, fontWeight: 500,
+          color: color || "rgba(255,255,255,0.90)",
+          textAlign: "left", transition: "background 0.12s",
+        }}>
+        {icon}
+        {label}
+      </button>
+    );
+  };
+  return (
+    <div style={{ position: "absolute", inset: 0, zIndex: 30 }}>
+      <div onClick={onClose} style={{
+        position: "absolute", inset: 0,
+        background: "rgba(0,0,0,0.55)",
+        animation: "fadeIn 0.2s ease-out",
+      }} />
+      <div style={{
+        position: "absolute", bottom: 0, left: 0, right: 0,
+        background: "#1a1a1a",
+        borderRadius: "20px 20px 0 0",
+        borderTop: "1px solid rgba(255,255,255,0.10)",
+        paddingBottom: 36,
+        animation: "slideUp 0.28s cubic-bezier(0.32,0.72,0,1)",
+        boxShadow: "0 -4px 32px rgba(0,0,0,0.40)",
+      }}>
+        <div style={{ width: 36, height: 4, borderRadius: 2, background: "rgba(255,255,255,0.18)", margin: "12px auto 16px" }} />
+        {character && (
+          <p style={{ margin: "0 8px 8px", padding: "0 16px", fontSize: 13, fontWeight: 600, color: "rgba(255,255,255,0.45)", lineHeight: "125%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            {character}
+          </p>
+        )}
+        <div style={{ height: 1, background: "rgba(255,255,255,0.07)", margin: "4px 0" }} />
+        {item(
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+            <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>,
+          "Edit character"
+        )}
+        <div style={{ height: 1, background: "rgba(255,255,255,0.07)", margin: "4px 0" }} />
+        {item(
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+            <circle cx="18" cy="5"  r="3" stroke="currentColor" strokeWidth="1.8"/>
+            <circle cx="6"  cy="12" r="3" stroke="currentColor" strokeWidth="1.8"/>
+            <circle cx="18" cy="19" r="3" stroke="currentColor" strokeWidth="1.8"/>
+            <path d="M8.59 13.51l6.83 3.98M15.41 6.51L8.59 10.49" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+          </svg>,
+          "Share character"
+        )}
+        <div style={{ height: 1, background: "rgba(255,255,255,0.07)", margin: "4px 0" }} />
+        {item(
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+            <polyline points="3 6 5 6 21 6" stroke="#f87171" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M19 6l-1 14H6L5 6" stroke="#f87171" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M10 11v6M14 11v6" stroke="#f87171" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M9 6V4h6v2" stroke="#f87171" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>,
+          "Delete character",
+          "#f87171"
+        )}
         <div style={{ height: 1, background: "rgba(255,255,255,0.07)", margin: "4px 0" }} />
         <button
           onClick={onClose}
@@ -1506,16 +1604,34 @@ function TrendArrow({ trend }) {
   );
 }
 
-function CharacterGridItem({ name, chats, img, rank, trend, tag }) {
+function CharacterGridItem({ name, chats, img, rank, trend, tag, onMenu }) {
   const tagInfo = tag ? TAG_CONFIG[tag] : null;
+  const pressTimer = useRef(null);
+
+  const startLongPress = () => {
+    pressTimer.current = setTimeout(() => { onMenu && onMenu(); }, 500);
+  };
+  const cancelLongPress = () => {
+    if (pressTimer.current) { clearTimeout(pressTimer.current); pressTimer.current = null; }
+  };
+
   return (
-    <div style={{
-      display: "flex", flexDirection: "column", borderRadius: 16, overflow: "hidden",
-      background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.10)",
-      cursor: "pointer",
-    }}>
+    <div
+      onMouseDown={startLongPress}
+      onMouseUp={cancelLongPress}
+      onMouseLeave={cancelLongPress}
+      onTouchStart={startLongPress}
+      onTouchEnd={cancelLongPress}
+      onTouchMove={cancelLongPress}
+      style={{
+        display: "flex", flexDirection: "column", borderRadius: 16, overflow: "hidden",
+        background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.10)",
+        cursor: "pointer", position: "relative",
+      }}>
       <div style={{ position: "relative", paddingBottom: "142.22%" }}>
         <img src={img} alt={name} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }} />
+        {/* top scrim for dot visibility */}
+        <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 40, background: "linear-gradient(to bottom, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.30) 60%, transparent 100%)", pointerEvents: "none" }} />
         {tagInfo && (
           <div style={{
             position: "absolute", top: 6, left: 6,
@@ -1529,6 +1645,26 @@ function CharacterGridItem({ name, chats, img, rank, trend, tag }) {
             <span style={{ fontSize: 9, color: "white", letterSpacing: "0.3px" }}>{tagInfo.label}</span>
           </div>
         )}
+        {/* 3-dot menu button */}
+        <button
+          onClick={(e) => { e.stopPropagation(); cancelLongPress(); onMenu && onMenu(); }}
+          onMouseDown={(e) => e.stopPropagation()}
+          style={{
+            position: "absolute", top: 6, right: 6,
+            width: 20, height: 20,
+            background: "none", border: "none",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            cursor: "pointer", padding: 0,
+            color: "rgba(255,255,255,1)",
+            filter: "drop-shadow(0 1px 3px rgba(0,0,0,0.9))",
+          }}
+        >
+          <svg width="10" height="10" viewBox="0 0 4 16" fill="none">
+            <circle cx="2" cy="2"  r="1.4" fill="currentColor"/>
+            <circle cx="2" cy="8"  r="1.4" fill="currentColor"/>
+            <circle cx="2" cy="14" r="1.4" fill="currentColor"/>
+          </svg>
+        </button>
       </div>
       <div style={{ padding: "6px 8px 8px", borderTop: "1px solid rgba(255,255,255,0.05)" }}>
         <p style={{ margin: 0, fontWeight: 500, fontSize: 11, color: "white", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
@@ -1643,7 +1779,7 @@ function StoryCard({ character, caption, likes, comments, date, time }) {
   );
 }
 
-function ContentGrid({ activeTab }) {
+function ContentGrid({ activeTab, onCharMenu }) {
   const [expanded, setExpanded] = useState(false);
   const gridTopRef = useRef(null);
   const btnRef     = useRef(null);
@@ -1678,7 +1814,7 @@ function ContentGrid({ activeTab }) {
           transition: "max-height 0.4s cubic-bezier(0.4,0,0.2,1)",
         }}>
           {CHARACTERS.map((c) => (
-            <CharacterGridItem key={c.name} {...c} />
+            <CharacterGridItem key={c.name} {...c} onMenu={() => onCharMenu && onCharMenu(c.name)} />
           ))}
         </div>
         {/* bottom fade — hidden when expanded */}
@@ -1725,6 +1861,8 @@ function MyProfileView() {
   const [bioSheetOpen, setBioSheetOpen] = useState(false);
   const [badgesSheetOpen,    setBadgesSheetOpen]    = useState(false);
   const [commentsSheetOpen,  setCommentsSheetOpen]  = useState(false);
+  const [charMenuOpen, setCharMenuOpen] = useState(false);
+  const [charMenuChar, setCharMenuChar] = useState(null);
 
   return (
     <div style={{ background: "#171717", display: "flex", flexDirection: "column", width: 414, height: "100%", fontFamily: "'Rubik', sans-serif", position: "relative" }}>
@@ -1736,7 +1874,7 @@ function MyProfileView() {
         <ActivePersonaCard />
         
         <TabBar active={activeTab} onChange={setActiveTab} />
-        <ContentGrid activeTab={activeTab} />
+        <ContentGrid activeTab={activeTab} onCharMenu={(name) => { setCharMenuChar(name); setCharMenuOpen(true); }} />
         <p style={{ textAlign: "center", fontSize: 13, color: "rgba(255,255,255,0.55)", margin: "8px 0 4px", fontWeight: 400 }}>
           Connect with us at{" "}
           <a href="mailto:support@wsup.ai" style={{ color: "#0083ff", textDecoration: "none" }}>support@wsup.ai</a>
@@ -1756,6 +1894,7 @@ function MyProfileView() {
         onConfirm={() => setLogoutConfirmOpen(false)}
       />
       <BioSheet open={bioSheetOpen} onClose={() => setBioSheetOpen(false)} bio={PROFILE.bio} name={PROFILE.name} />
+      <CharacterMenuSheet open={charMenuOpen} onClose={() => setCharMenuOpen(false)} character={charMenuChar} />
       <BadgesSheet open={badgesSheetOpen} onClose={() => setBadgesSheetOpen(false)} />
       {/* <CommentsSheet open={commentsSheetOpen} onClose={() => setCommentsSheetOpen(false)} /> */}
       {/* Bottom nav */}
