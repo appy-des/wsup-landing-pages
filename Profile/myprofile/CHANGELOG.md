@@ -116,9 +116,14 @@ All sheets: `slideUp` animation, drag-to-dismiss (swipe down >80px), backdrop ta
 
 ---
 
-## 12. "My Cards" Section
-- Present in V1 (visible at bottom of scroll)
-- **Removed** in V2
+## 12. My Cards View *(new — replaces removed V1 section)*
+- Accessible via 3-dot menu → "My cards"
+- Slides in from the right within content area — header and bottom nav stay fixed
+- Slide-out animation on close; swipe from left edge (< 32px) + drag > 80px to go back
+- **Nav row**: `← Profile` left-aligned, `My Cards  48 total` right-aligned, single divider below
+- **2-column grid** of character cards, grid starts immediately below the nav row
+- **Card design**: portrait image (4:3 ratio) · character name overlaid bottom-left with gradient scrim · footer row with card icon + "X Cards" count
+- Same `slideInRight` / `slideOutRight` animation pattern as Social View
 
 ---
 

@@ -274,6 +274,19 @@ const FOLLOWERS = [
   { name: "Echo Vale",        img: shuffled[1]  },
 ];
 
+const MY_CARDS = [
+  { name: "Lily",    cards: 5,  img: shuffled[1]  },
+  { name: "Marcus",  cards: 3,  img: shuffled[2]  },
+  { name: "Zara",    cards: 8,  img: shuffled[3]  },
+  { name: "Ethan",   cards: 2,  img: shuffled[4]  },
+  { name: "Nova",    cards: 6,  img: shuffled[5]  },
+  { name: "Kai",     cards: 4,  img: shuffled[6]  },
+  { name: "Aria",    cards: 7,  img: shuffled[7]  },
+  { name: "Rex",     cards: 1,  img: shuffled[8]  },
+  { name: "Selene",  cards: 9,  img: shuffled[9]  },
+  { name: "Dex",     cards: 3,  img: shuffled[10] },
+];
+
 const FOLLOWING = [
   { name: "Bessie Cooper",   img: shuffled[1]  },
   { name: "Courtney Henry",  img: shuffled[2]  },
@@ -441,7 +454,7 @@ function AppBar({ handle, onMenuOpen }) {
   );
 }
 
-function MenuSheet({ open, onClose, onLogout }) {
+function MenuSheet({ open, onClose, onLogout, onMyCards }) {
   if (!open) return null;
   const item = (icon, label, color, onClick) => {
     const isDestructive = color === "#f87171";
@@ -501,7 +514,9 @@ function MenuSheet({ open, onClose, onLogout }) {
             <rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" strokeWidth="1.8"/>
             <path d="M3 10h18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
           </svg>,
-          "My cards"
+          "My cards",
+          undefined,
+          onMyCards
         )}
         <div style={{ height: 1, background: "rgba(255,255,255,0.07)", margin: "4px 0" }} />
         {item(
@@ -1903,6 +1918,113 @@ function ContentGrid({ activeTab, onCharMenu }) {
 // ---------------------------------------------------------------------------
 // Following Sheet
 // ---------------------------------------------------------------------------
+function MyCardsView({ open, onClose }) {
+  const [closing, setClosing] = React.useState(false);
+  const panelRef    = useRef(null);
+  const touchStartX = useRef(null);
+
+  const handleClose = React.useCallback(() => {
+    setClosing(true);
+    setTimeout(() => { setClosing(false); onClose(); }, 260);
+  }, [onClose]);
+
+  const onTouchStart = (e) => { if (e.touches[0].clientX < 32) touchStartX.current = e.touches[0].clientX; };
+  const onTouchMove  = (e) => {
+    if (touchStartX.current === null || !panelRef.current) return;
+    const delta = e.touches[0].clientX - touchStartX.current;
+    if (delta > 0) { panelRef.current.style.transform = `translateX(${delta}px)`; panelRef.current.style.transition = "none"; }
+  };
+  const onTouchEnd = (e) => {
+    if (touchStartX.current === null || !panelRef.current) return;
+    const delta = e.changedTouches[0].clientX - touchStartX.current;
+    touchStartX.current = null;
+    panelRef.current.style.transition = "transform 0.22s ease";
+    if (delta > 80) { handleClose(); } else { panelRef.current.style.transform = "translateX(0)"; }
+  };
+
+  if (!open && !closing) return null;
+
+  return (
+    <div
+      ref={panelRef}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+      style={{
+        position: "absolute", inset: 0, zIndex: 10,
+        background: "#171717", display: "flex", flexDirection: "column",
+        animation: `${closing ? "slideOutRight" : "slideInRight"} 0.26s cubic-bezier(0.32,0.72,0,1) forwards`,
+        fontFamily: "'Rubik', sans-serif",
+      }}>
+
+      {/* Back nav row — back left, title+count right-aligned */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px 10px", flexShrink: 0, borderBottom: "1px solid rgba(255,255,255,0.10)" }}>
+        <button onClick={handleClose} style={{
+          display: "flex", alignItems: "center", gap: 10,
+          background: "none", border: "none", cursor: "pointer",
+          padding: "4px 0", fontFamily: "inherit",
+        }}>
+          <svg width="24" height="20" viewBox="0 0 28 24" fill="none">
+            <path d="M27 12H1M1 12l9 9M1 12l9-9" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <span style={{ fontSize: 17, fontWeight: 500, color: "white" }}>Profile</span>
+        </button>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 5 }}>
+          <span style={{ fontWeight: 600, fontSize: 14, color: "white" }}>My Cards</span>
+          <span style={{ fontSize: 12, color: "rgba(255,255,255,0.35)" }}>{MY_CARDS.reduce((sum, c) => sum + c.cards, 0)} total</span>
+        </div>
+      </div>
+
+      {/* 2-col grid */}
+      <div style={{ flex: 1, minHeight: 0, overflowY: "auto", scrollbarWidth: "none", padding: "14px 12px 80px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+          {MY_CARDS.map((c) => (
+            <div key={c.name} style={{
+              display: "flex", flexDirection: "column",
+              borderRadius: 16, overflow: "hidden",
+              background: "rgba(255,255,255,0.05)",
+              border: "1px solid rgba(255,255,255,0.10)",
+              cursor: "pointer",
+            }}>
+              {/* Image with name overlay */}
+              <div style={{ position: "relative", paddingBottom: "133%" }}>
+                <img src={c.img} alt={c.name} style={{
+                  position: "absolute", inset: 0, width: "100%", height: "100%",
+                  objectFit: "cover", objectPosition: "top",
+                }} />
+                {/* bottom gradient scrim */}
+                <div style={{
+                  position: "absolute", bottom: 0, left: 0, right: 0, height: 72,
+                  background: "linear-gradient(to top, rgba(0,0,0,0.78) 0%, transparent 100%)",
+                  pointerEvents: "none",
+                }} />
+                {/* name overlay */}
+                <span style={{
+                  position: "absolute", bottom: 8, left: 10,
+                  fontWeight: 600, fontSize: 14, color: "white",
+                  textShadow: "0 1px 4px rgba(0,0,0,0.6)",
+                }}>{c.name}</span>
+              </div>
+              {/* Footer: card icon + count */}
+              <div style={{
+                display: "flex", alignItems: "center", gap: 5,
+                padding: "7px 10px 9px",
+                borderTop: "1px solid rgba(255,255,255,0.06)",
+              }}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0, opacity: 0.60 }}>
+                  <rect x="3" y="5" width="18" height="14" rx="2" stroke="white" strokeWidth="1.8"/>
+                  <path d="M3 10h18" stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
+                </svg>
+                <span style={{ fontSize: 12, color: "rgba(255,255,255,0.65)", fontWeight: 500 }}>{c.cards} Cards</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function SocialView({ open, initialTab, onClose }) {
   const [activeTab,  setActiveTab]  = React.useState(initialTab || "Followers");
   const [followed,   setFollowed]   = React.useState({});
@@ -2276,8 +2398,9 @@ function MyProfileView() {
   const [bioSheetOpen, setBioSheetOpen] = useState(false);
   const [badgesSheetOpen,     setBadgesSheetOpen]     = useState(false);
   const [commentsSheetOpen,   setCommentsSheetOpen]   = useState(false);
-  const [socialViewOpen, setSocialViewOpen] = useState(false);
-  const [socialViewTab,  setSocialViewTab]  = useState("Followers");
+  const [socialViewOpen,   setSocialViewOpen]   = useState(false);
+  const [socialViewTab,    setSocialViewTab]    = useState("Followers");
+  const [myCardsViewOpen,  setMyCardsViewOpen]  = useState(false);
   const [charMenuOpen, setCharMenuOpen] = useState(false);
   const [charMenuChar, setCharMenuChar] = useState(null);
 
@@ -2306,11 +2429,13 @@ function MyProfileView() {
           </p>
         </div>
         <SocialView open={socialViewOpen} initialTab={socialViewTab} onClose={() => setSocialViewOpen(false)} />
+        <MyCardsView open={myCardsViewOpen} onClose={() => setMyCardsViewOpen(false)} />
       </div>
       <MenuSheet
         open={menuOpen}
         onClose={() => setMenuOpen(false)}
         onLogout={() => { setMenuOpen(false); setLogoutConfirmOpen(true); }}
+        onMyCards={() => setMyCardsViewOpen(true)}
       />
       <LogoutConfirmSheet
         open={logoutConfirmOpen}

@@ -71,7 +71,14 @@ MyProfile V1 → V2 Changes
     - BadgesSheet — emoji badge grid
     - CharacterMenuSheet — character actions
 
-12. MY CARDS SECTION (removed)
+12. MY CARDS VIEW (new — replaces removed V1 section)
+    - Accessible via 3-dot menu → "My cards"
+    - Slides in from the right within content area (header + nav stay fixed)
+    - Slide-out animation on close, swipe-from-left-edge to go back
+    - Single nav row: "← Profile" left, "My Cards  48 total" right-aligned, one divider below
+    - 2-column grid of character cards
+    - Each card: portrait image, character name overlaid bottom-left, card icon + "X Cards" footer
+    - Same slide-in/out + swipe-back pattern as Social View
 
 13. BOTTOM NAV
     - Native nav replaced with App Footer 2.png asset + blur backdrop
