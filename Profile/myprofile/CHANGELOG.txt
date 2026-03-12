@@ -1,0 +1,77 @@
+MyProfile V1 → V2 Changes
+=========================
+
+1. HEADER
+   - Replaced native header bar with mobile-header.png asset
+
+2. TOP TAB BAR (removed)
+   - "Your Profile / 0 Following" tab switcher removed
+   - Following is now a stat in the Stats Row
+
+3. AVATAR & IDENTITY
+   - Avatar now has a gradient ring (blue → purple → gold)
+   - Name is left-aligned, no longer centered
+   - Creator badge pill added inline next to name
+   - Bio added below name (3-line truncated, "Read more" opens full bio sheet)
+   - Edit Profile changed from labeled pill to icon-only button
+   - Share changed to icon-only button
+   - New 3-dot menu button → opens Settings/Logout sheet
+
+4. RANK BANNER (new)
+   - Shows "#12 in Today's Top Creators" with shimmer animation
+
+5. STATS ROW (new)
+   - 4 stats: Followers, Chats, Views, Following
+   - Each shows value + label + trend % + arrow + sparkline
+   - Trend tooltip on clicking trend number/arrow ("Updated weekly")
+   - Tapping Followers value/label → opens Followers & Following social view
+   - Tapping Following value/label → opens Followers & Following social view
+   - Replaces old plain "0 Followers" text
+
+6. FOLLOWERS & FOLLOWING SOCIAL VIEW (new)
+   - Slides in from the right within the content area only
+   - Header and bottom nav remain fixed and unchanged
+   - "← Profile" back button (thin arrow, fontWeight 500, no divider)
+   - Swipe from left edge (< 32px) to go back
+   - Slides out to the right on close
+   - Two tabs: Followers · count / Following · count (underline style matching Characters/Stories)
+   - Tab counts use real stat values (3.2k / 284)
+   - Followers tab: "Follow back" CTA (dark style) → tap → "Following" (80% white fill, #4a3ec6 text)
+   - Following tab: "Following" CTA (80% white fill, #4a3ec6 text) → tap → "Follow" (dark style)
+   - CTA width fixed at 112px so label change doesn't shift layout
+   - CTA has transition on background/color change
+   - Toggle state persists while view is open
+   - Empty state shown if list is empty
+   - Row tap area has pointer cursor (profile navigation intent)
+
+7. ACTIVE PERSONA CARD
+   - Section header "CHAT PERSONAS" removed
+   - "ACTIVE PERSONA" text pill replaced with Label.png asset
+   - New X dismiss button → shows empty "Equip a persona" state
+
+8. CONTENT TABS
+   - "MY CHARACTERS" section header replaced with Characters/Stories tab bar
+   - "+ Create Character" link removed
+
+9. CHARACTER CARDS
+   - Added tag badges top-left (Chat Leader, Fan Fave, Featured, Trending)
+   - Added 3-dot menu button top-right → opens action sheet
+   - Added trend arrow (↑/↓) next to rank number
+   - Long-press also triggers the menu
+
+10. STORIES TAB (new)
+    - Feed of story cards: 4:3 image, character avatar/name overlay, Chat button
+    - Actions: Like, Comment, Share, "Enter This Story" CTA
+    - Caption + date/time per card
+
+11. BOTTOM SHEETS (all new)
+    - BioSheet — full bio
+    - MenuSheet — Settings + Logout
+    - LogoutConfirmSheet — confirm logout
+    - BadgesSheet — emoji badge grid
+    - CharacterMenuSheet — character actions
+
+12. MY CARDS SECTION (removed)
+
+13. BOTTOM NAV
+    - Native nav replaced with App Footer 2.png asset + blur backdrop

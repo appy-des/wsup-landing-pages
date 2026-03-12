@@ -82,6 +82,14 @@
     .profile-scroll::-webkit-scrollbar { display: none; }
     .badges-scroll::-webkit-scrollbar { display: none; }
 
+    @keyframes slideInRight {
+      from { transform: translateX(100%); }
+      to   { transform: translateX(0); }
+    }
+    @keyframes slideOutRight {
+      from { transform: translateX(0); }
+      to   { transform: translateX(100%); }
+    }
     @keyframes slideUp {
       from { transform: translateY(100%); }
       to   { transform: translateY(0); }
@@ -1895,6 +1903,144 @@ function ContentGrid({ activeTab, onCharMenu }) {
 // ---------------------------------------------------------------------------
 // Following Sheet
 // ---------------------------------------------------------------------------
+function SocialView({ open, initialTab, onClose }) {
+  const [activeTab,  setActiveTab]  = React.useState(initialTab || "Followers");
+  const [followed,   setFollowed]   = React.useState({});
+  const [unfollowed, setUnfollowed] = React.useState({});
+  const [closing,    setClosing]    = React.useState(false);
+  const panelRef   = useRef(null);
+  const touchStartX = useRef(null);
+
+  // Sync tab when opened with a different initialTab
+  React.useEffect(() => { if (open) setActiveTab(initialTab); }, [open, initialTab]);
+
+  const handleClose = React.useCallback(() => {
+    setClosing(true);
+    setTimeout(() => { setClosing(false); onClose(); }, 260);
+  }, [onClose]);
+
+  // Swipe-from-left-edge to go back
+  const onTouchStart = (e) => {
+    if (e.touches[0].clientX < 32) touchStartX.current = e.touches[0].clientX;
+  };
+  const onTouchMove = (e) => {
+    if (touchStartX.current === null || !panelRef.current) return;
+    const delta = e.touches[0].clientX - touchStartX.current;
+    if (delta > 0) { panelRef.current.style.transform = `translateX(${delta}px)`; panelRef.current.style.transition = "none"; }
+  };
+  const onTouchEnd = (e) => {
+    if (touchStartX.current === null || !panelRef.current) return;
+    const delta = e.changedTouches[0].clientX - touchStartX.current;
+    touchStartX.current = null;
+    panelRef.current.style.transition = "transform 0.22s ease";
+    if (delta > 80) { handleClose(); } else { panelRef.current.style.transform = "translateX(0)"; }
+  };
+
+  if (!open && !closing) return null;
+
+  const isFollowingTab = activeTab === "Following";
+  const data = isFollowingTab ? FOLLOWING : FOLLOWERS;
+
+  // Use real stat values for counts
+  const followersCount = PROFILE.stats.find(s => s.label === "Followers")?.value || FOLLOWERS.length;
+  const followingCount = PROFILE.stats.find(s => s.label === "Following")?.value || FOLLOWING.length;
+
+  return (
+    <div
+      ref={panelRef}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+      style={{
+        position: "absolute", inset: 0, zIndex: 10,
+        background: "#171717", display: "flex", flexDirection: "column",
+        animation: `${closing ? "slideOutRight" : "slideInRight"} 0.26s cubic-bezier(0.32,0.72,0,1) forwards`,
+        fontFamily: "'Rubik', sans-serif",
+      }}>
+
+      {/* Back nav row */}
+      <div style={{ display: "flex", alignItems: "center", padding: "12px 16px 10px", flexShrink: 0 }}>
+        <button onClick={handleClose} style={{
+          display: "flex", alignItems: "center", gap: 10,
+          background: "none", border: "none", cursor: "pointer",
+          padding: "4px 0", fontFamily: "inherit",
+        }}>
+          <svg width="24" height="20" viewBox="0 0 28 24" fill="none">
+            <path d="M27 12H1M1 12l9 9M1 12l9-9" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <span style={{ fontSize: 17, fontWeight: 500, color: "white" }}>Profile</span>
+        </button>
+      </div>
+
+      {/* Followers / Following tab bar — matches Characters/Stories style */}
+      <div style={{ display: "flex", width: "100%", borderBottom: "1px solid rgba(255,255,255,0.10)", flexShrink: 0 }}>
+        {["Followers", "Following"].map(tab => {
+          const isActive = tab === activeTab;
+          return (
+            <button key={tab} onClick={() => setActiveTab(tab)} style={{
+              flex: 1, border: "none", background: "transparent",
+              padding: "8px 0 10px", fontSize: 13,
+              fontWeight: isActive ? 600 : 400,
+              color: isActive ? "white" : "rgba(255,255,255,0.45)",
+              cursor: "pointer", position: "relative", fontFamily: "inherit",
+            }}>
+              {tab}<span style={{ margin: "0 4px", opacity: 0.35 }}>·</span>{tab === "Followers" ? followersCount : followingCount}
+              {isActive && (
+                <span style={{
+                  position: "absolute", bottom: 0, left: "20%", right: "20%",
+                  height: 2, borderRadius: 999, background: "#4a3ec6",
+                }} />
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Scrollable list */}
+      <div style={{ flex: 1, minHeight: 0, overflowY: "auto", scrollbarWidth: "none", paddingBottom: 72 }}>
+        {data.length === 0 ? (
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "60%", gap: 10 }}>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" style={{ opacity: 0.25 }}>
+              <circle cx="12" cy="8" r="4" stroke="white" strokeWidth="1.5"/>
+              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+            <p style={{ margin: 0, fontSize: 14, color: "rgba(255,255,255,0.35)", fontWeight: 500 }}>
+              No {activeTab.toLowerCase()} yet
+            </p>
+          </div>
+        ) : data.map((f, i) => {
+          const toggled  = isFollowingTab ? unfollowed[f.name] : followed[f.name];
+          const toggle   = () => isFollowingTab
+            ? setUnfollowed(prev => ({ ...prev, [f.name]: !prev[f.name] }))
+            : setFollowed(prev => ({ ...prev, [f.name]: !prev[f.name] }));
+          const label    = isFollowingTab ? (toggled ? "Follow" : "Following") : (toggled ? "Following" : "Follow back");
+          const btnStyle = (isFollowingTab ? !toggled : toggled)
+            ? { background: "rgba(255,255,255,0.80)", border: "none", color: "#4a3ec6" }
+            : { background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.18)", color: "white" };
+
+          return (
+            <div key={f.name} style={{
+              display: "flex", alignItems: "center", padding: "12px 20px",
+              borderBottom: i < data.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none",
+              cursor: "pointer",
+            }}>
+              <img src={f.img} alt={f.name} style={{ width: 48, height: 48, borderRadius: "50%", objectFit: "cover", flexShrink: 0, background: "#333" }} />
+              <span style={{ flex: 1, marginLeft: 14, fontWeight: 600, fontSize: 15, color: "white" }}>{f.name}</span>
+              <div onClick={(e) => { e.stopPropagation(); toggle(); }} style={{
+                width: 112, textAlign: "center", padding: "7px 0", borderRadius: 20,
+                fontSize: 13, fontWeight: 600, cursor: "pointer", flexShrink: 0,
+                transition: "background 0.15s, color 0.15s",
+                ...btnStyle,
+              }}>{label}</div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// kept as stub so nothing breaks — replaced by SocialView
 function FollowersSheet({ open, onClose }) {
   const sheetRef   = useRef(null);
   const touchStart = useRef(null);
@@ -1979,13 +2125,13 @@ function FollowersSheet({ open, onClose }) {
               <div
                 onClick={() => setFollowed(prev => ({ ...prev, [f.name]: !prev[f.name] }))}
                 style={followed[f.name] ? {
-                  width: 96, textAlign: "center",
+                  width: 112, textAlign: "center",
                   padding: "7px 0", borderRadius: 20,
-                  border: "none", background: "white",
+                  border: "none", background: "rgba(255,255,255,0.80)",
                   fontSize: 13, fontWeight: 600, color: "#4a3ec6",
                   cursor: "pointer", flexShrink: 0,
                 } : {
-                  width: 96, textAlign: "center",
+                  width: 112, textAlign: "center",
                   padding: "7px 0", borderRadius: 20,
                   border: "1px solid rgba(255,255,255,0.18)",
                   background: "rgba(255,255,255,0.06)",
@@ -2090,7 +2236,7 @@ function FollowingSheet({ open, onClose }) {
               <div
                 onClick={() => setUnfollowed(prev => ({ ...prev, [f.name]: !prev[f.name] }))}
                 style={unfollowed[f.name] ? {
-                  width: 96, textAlign: "center",
+                  width: 112, textAlign: "center",
                   padding: "7px 0",
                   borderRadius: 20,
                   border: "1px solid rgba(255,255,255,0.18)",
@@ -2100,11 +2246,11 @@ function FollowingSheet({ open, onClose }) {
                   cursor: "pointer",
                   flexShrink: 0,
                 } : {
-                  width: 96, textAlign: "center",
+                  width: 112, textAlign: "center",
                   padding: "7px 0",
                   borderRadius: 20,
                   border: "none",
-                  background: "white",
+                  background: "rgba(255,255,255,0.80)",
                   fontSize: 13, fontWeight: 600,
                   color: "#4a3ec6",
                   cursor: "pointer",
@@ -2130,29 +2276,36 @@ function MyProfileView() {
   const [bioSheetOpen, setBioSheetOpen] = useState(false);
   const [badgesSheetOpen,     setBadgesSheetOpen]     = useState(false);
   const [commentsSheetOpen,   setCommentsSheetOpen]   = useState(false);
-  const [followersSheetOpen,  setFollowersSheetOpen]  = useState(false);
-  const [followingSheetOpen,  setFollowingSheetOpen]  = useState(false);
+  const [socialViewOpen, setSocialViewOpen] = useState(false);
+  const [socialViewTab,  setSocialViewTab]  = useState("Followers");
   const [charMenuOpen, setCharMenuOpen] = useState(false);
   const [charMenuChar, setCharMenuChar] = useState(null);
 
   return (
     <div style={{ background: "#171717", display: "flex", flexDirection: "column", width: 414, height: "100%", fontFamily: "'Rubik', sans-serif", position: "relative" }}>
       <img src="assets/mobile-header.png" alt="header" style={{ width: "100%", flexShrink: 0, display: "block" }} />
-      <div className="profile-scroll">
-        <RankBanner />
-        <AvatarSection onReadMore={() => setBioSheetOpen(true)} onMenuOpen={() => setMenuOpen(true)} />
-        <StatsRow onFollowersOpen={() => setFollowersSheetOpen(true)} onFollowingOpen={() => setFollowingSheetOpen(true)} />
-        <ActivePersonaCard />
-        
-        <TabBar active={activeTab} onChange={setActiveTab} />
-        <ContentGrid activeTab={activeTab} onCharMenu={(name) => { setCharMenuChar(name); setCharMenuOpen(true); }} />
-        <p style={{ textAlign: "center", fontSize: 13, color: "rgba(255,255,255,0.55)", margin: "8px 0 4px", fontWeight: 400 }}>
-          Connect with us at{" "}
-          <a href="mailto:support@wsup.ai" style={{ color: "#0083ff", textDecoration: "none" }}>support@wsup.ai</a>
-        </p>
-        <p style={{ textAlign: "center", fontSize: 11, color: "rgba(255,255,255,0.20)", margin: "0 0 20px", fontWeight: 400 }}>
-          © 2026 now.gg. All rights reserved.
-        </p>
+      {/* Content area — SocialView slides within this only */}
+      <div style={{ flex: 1, position: "relative", overflow: "hidden", display: "flex", flexDirection: "column" }}>
+        <div className="profile-scroll">
+          <RankBanner />
+          <AvatarSection onReadMore={() => setBioSheetOpen(true)} onMenuOpen={() => setMenuOpen(true)} />
+          <StatsRow
+            onFollowersOpen={() => { setSocialViewTab("Followers"); setSocialViewOpen(true); }}
+            onFollowingOpen={() => { setSocialViewTab("Following"); setSocialViewOpen(true); }}
+          />
+          <ActivePersonaCard />
+
+          <TabBar active={activeTab} onChange={setActiveTab} />
+          <ContentGrid activeTab={activeTab} onCharMenu={(name) => { setCharMenuChar(name); setCharMenuOpen(true); }} />
+          <p style={{ textAlign: "center", fontSize: 13, color: "rgba(255,255,255,0.55)", margin: "8px 0 4px", fontWeight: 400 }}>
+            Connect with us at{" "}
+            <a href="mailto:support@wsup.ai" style={{ color: "#0083ff", textDecoration: "none" }}>support@wsup.ai</a>
+          </p>
+          <p style={{ textAlign: "center", fontSize: 11, color: "rgba(255,255,255,0.20)", margin: "0 0 20px", fontWeight: 400 }}>
+            © 2026 now.gg. All rights reserved.
+          </p>
+        </div>
+        <SocialView open={socialViewOpen} initialTab={socialViewTab} onClose={() => setSocialViewOpen(false)} />
       </div>
       <MenuSheet
         open={menuOpen}
@@ -2167,8 +2320,6 @@ function MyProfileView() {
       <BioSheet open={bioSheetOpen} onClose={() => setBioSheetOpen(false)} bio={PROFILE.bio} name={PROFILE.name} />
       <CharacterMenuSheet open={charMenuOpen} onClose={() => setCharMenuOpen(false)} character={charMenuChar} />
       <BadgesSheet open={badgesSheetOpen} onClose={() => setBadgesSheetOpen(false)} />
-      <FollowersSheet open={followersSheetOpen} onClose={() => setFollowersSheetOpen(false)} />
-      <FollowingSheet open={followingSheetOpen} onClose={() => setFollowingSheetOpen(false)} />
       {/* <CommentsSheet open={commentsSheetOpen} onClose={() => setCommentsSheetOpen(false)} /> */}
       {/* Bottom nav */}
       <div style={{
