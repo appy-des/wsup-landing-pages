@@ -754,9 +754,10 @@ function ActionButtons({ following, onFollowToggle, onComments }) {
     <div style={{ display: "flex", gap: 10, padding: "0 16px", marginTop: 12, width: "100%" }}>
       <button onClick={onFollowToggle} style={{
         flex: 1, height: 44, borderRadius: 50,
-        border: following ? "1px solid rgba(255,255,255,0.12)" : "none",
-        fontSize: 14, fontWeight: 600, color: "white", cursor: "pointer", fontFamily: "inherit",
-        background: following ? "rgba(255,255,255,0.08)" : "#4a3ec6",
+        border: "none",
+        fontSize: 14, fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
+        color: following ? "#4a3ec6" : "white",
+        background: following ? "rgba(255,255,255,0.80)" : "#4a3ec6",
       }}>
         {following ? "Following" : "Follow"}
       </button>
