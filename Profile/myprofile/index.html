@@ -248,6 +248,42 @@ const CHARACTERS = [
   { name: "Starbound",      chats: "98",   img: shuffled[9], rank: 9, trend: +2 },
 ];
 
+const FOLLOWERS = [
+  { name: "Nova Starfield",   img: shuffled[2]  },
+  { name: "Kai Drifter",      img: shuffled[3]  },
+  { name: "Lyra Voss",        img: shuffled[4]  },
+  { name: "Orion Blake",      img: shuffled[5]  },
+  { name: "Zara Nightfall",   img: shuffled[6]  },
+  { name: "Felix Arden",      img: shuffled[7]  },
+  { name: "Mila Crowe",       img: shuffled[8]  },
+  { name: "Juno Pierce",      img: shuffled[9]  },
+  { name: "Rex Holloway",     img: shuffled[10] },
+  { name: "Sable Quinn",      img: shuffled[11] },
+  { name: "Dex Morrow",       img: shuffled[12] },
+  { name: "Ivy Storm",        img: shuffled[13] },
+  { name: "Atlas Cole",       img: shuffled[14] },
+  { name: "Luna Shade",       img: shuffled[15] },
+  { name: "Echo Vale",        img: shuffled[1]  },
+];
+
+const FOLLOWING = [
+  { name: "Bessie Cooper",   img: shuffled[1]  },
+  { name: "Courtney Henry",  img: shuffled[2]  },
+  { name: "Theresa Webb",    img: shuffled[3]  },
+  { name: "Kristin Watson",  img: shuffled[4]  },
+  { name: "Ralph Edwards",   img: shuffled[5]  },
+  { name: "Savannah Nguyen", img: shuffled[6]  },
+  { name: "Kathryn Murphy",  img: shuffled[7]  },
+  { name: "Esther Howard",   img: shuffled[8]  },
+  { name: "Eleanor Pena",    img: shuffled[9]  },
+  { name: "Ronald Richards", img: shuffled[10] },
+  { name: "Devon Lane",      img: shuffled[11] },
+  { name: "Jerome Bell",     img: shuffled[12] },
+  { name: "Arlene McCoy",    img: shuffled[13] },
+  { name: "Cody Fisher",     img: shuffled[14] },
+  { name: "Annette Black",   img: shuffled[15] },
+];
+
 const ACTIVE_PERSONA = {
   name: "Blue Fire Girl",
   description: "A fierce elemental spirit with an unquenchable spark and a heart that burns for justice.",
@@ -929,7 +965,7 @@ function ActivePersonaCard() {
   );
 }
 
-function StatsRow() {
+function StatsRow({ onFollowersOpen, onFollowingOpen }) {
   const [activeTip, setActiveTip] = useState(null);
   React.useEffect(() => {
     if (!activeTip) return;
@@ -947,8 +983,7 @@ function StatsRow() {
               <div style={{ flexShrink: 0, width: 1, background: "rgba(255,255,255,0.10)", margin: "4px 0" }} />
             )}
             <div
-              onClick={() => setActiveTip(showTip ? null : s.label)}
-              style={{ display: "flex", flexDirection: "column", alignItems: "center", flex: 1, padding: "4px 0", gap: 0, cursor: "pointer", position: "relative", userSelect: "none" }}
+              style={{ display: "flex", flexDirection: "column", alignItems: "center", flex: 1, padding: "4px 0", gap: 0, position: "relative", userSelect: "none" }}
             >
               {showTip && (
                 <div style={{
@@ -975,9 +1010,12 @@ function StatsRow() {
                   }} />
                 </div>
               )}
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 3 }}>
+              <div
+                onClick={s.label === "Following" ? onFollowingOpen : s.label === "Followers" ? onFollowersOpen : undefined}
+                style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 3, cursor: (s.label === "Following" || s.label === "Followers") ? "pointer" : "default" }}
+              >
                 <div style={{ display: "flex", alignItems: "center", gap: 0 }}>
-                  <span style={{ fontWeight: 600, fontSize: 17, color: "white", lineHeight: 1, marginLeft: s.label === "Following" ? 8 : 0, textDecoration: (s.label === "Followers" || s.label === "Following") ? "underline" : "none", textDecorationColor: "rgba(255,255,255,0.50)", textDecorationThickness: 1, textUnderlineOffset: 3 }}>{s.value}</span>
+                  <span style={{ fontWeight: 600, fontSize: 17, color: "white", lineHeight: 1, marginLeft: s.label === "Following" ? 8 : 0, textDecoration: "none" }}>{s.value}</span>
                   {(s.label === "Followers" || s.label === "Following") && (
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
                       <path d="M9 18l6-6-6-6" stroke="#82a1ff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -987,7 +1025,10 @@ function StatsRow() {
                 <div style={{ display: "flex", alignItems: "center", gap: 3 }}>
                   <span style={{ fontSize: 11, color: "rgba(255,255,255,0.50)", lineHeight: 1 }}>{s.label}</span>
                   {s.trend && (
-                    <>
+                    <span
+                      onClick={() => setActiveTip(showTip ? null : s.label)}
+                      style={{ display: "flex", alignItems: "center", gap: 3, cursor: "pointer" }}
+                    >
                       <span style={{ fontSize: 11, fontWeight: 500, lineHeight: 1, color }}>{s.trend.replace(/[+\-%]/g, "")}</span>
                       <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ display: "block", flexShrink: 0, transform: "translateY(-1px)" }}>
                         {s.up
@@ -995,7 +1036,7 @@ function StatsRow() {
                           : <path d="M5 1.5v7M2 5.5l3 3 3-3" stroke="rgba(248,113,113,0.55)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                         }
                       </svg>
-                    </>
+                    </span>
                   )}
                 </div>
               </div>
@@ -1852,6 +1893,234 @@ function ContentGrid({ activeTab, onCharMenu }) {
 }
 
 // ---------------------------------------------------------------------------
+// Following Sheet
+// ---------------------------------------------------------------------------
+function FollowersSheet({ open, onClose }) {
+  const sheetRef   = useRef(null);
+  const touchStart = useRef(null);
+  const [followed, setFollowed] = React.useState({});
+
+  if (!open) return null;
+
+  const onTouchStart = (e) => { touchStart.current = e.touches[0].clientY; };
+  const onTouchMove  = (e) => {
+    if (touchStart.current === null || !sheetRef.current) return;
+    const delta = e.touches[0].clientY - touchStart.current;
+    if (delta > 0) { sheetRef.current.style.transform = `translateY(${delta}px)`; sheetRef.current.style.transition = "none"; }
+  };
+  const onTouchEnd = (e) => {
+    if (touchStart.current === null || !sheetRef.current) return;
+    const delta = e.changedTouches[0].clientY - touchStart.current;
+    touchStart.current = null;
+    sheetRef.current.style.transition = "transform 0.22s ease";
+    if (delta > 80) { onClose(); } else { sheetRef.current.style.transform = "translateY(0)"; }
+  };
+
+  return (
+    <div style={{ position: "absolute", inset: 0, zIndex: 30 }}>
+      <div onClick={onClose} style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.55)", animation: "fadeIn 0.2s ease-out" }} />
+      <div
+        ref={sheetRef}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+        style={{
+          position: "absolute", bottom: 0, left: 0, right: 0,
+          maxHeight: "82%",
+          background: "#1a1a1a",
+          borderRadius: "20px 20px 0 0",
+          borderTop: "1px solid rgba(255,255,255,0.10)",
+          animation: "slideUp 0.28s cubic-bezier(0.32,0.72,0,1)",
+          boxShadow: "0 -4px 32px rgba(0,0,0,0.40)",
+          display: "flex", flexDirection: "column",
+          overflow: "hidden",
+        }}>
+        <div style={{ width: 36, height: 4, borderRadius: 2, background: "rgba(255,255,255,0.18)", margin: "12px auto 0", flexShrink: 0 }} />
+        <div style={{
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          padding: "14px 20px 12px", borderBottom: "1px solid rgba(255,255,255,0.08)", flexShrink: 0,
+        }}>
+          <div>
+            <p style={{ margin: 0, fontWeight: 600, fontSize: 16, color: "white" }}>Followers</p>
+            <p style={{ margin: "2px 0 0", fontSize: 12, color: "rgba(255,255,255,0.40)" }}>{FOLLOWERS.length} followers</p>
+          </div>
+          <button onClick={onClose} style={{
+            display: "flex", alignItems: "center", justifyContent: "center",
+            width: 44, height: 44, margin: "-8px -10px -8px 0",
+            background: "none", border: "none", cursor: "pointer",
+          }}>
+            <div style={{
+              width: 28, height: 28, borderRadius: "50%",
+              background: "rgba(255,255,255,0.08)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              color: "rgba(255,255,255,0.60)",
+            }}>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"/>
+              </svg>
+            </div>
+          </button>
+        </div>
+        <div style={{ flex: 1, minHeight: 0, overflowY: "auto", scrollbarWidth: "none" }}>
+          {FOLLOWERS.map((f, i) => (
+            <div key={f.name} style={{
+              display: "flex", alignItems: "center",
+              padding: "12px 20px",
+              borderBottom: i < FOLLOWERS.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none",
+            }}>
+              <img src={f.img} alt={f.name} style={{
+                width: 48, height: 48, borderRadius: "50%",
+                objectFit: "cover", flexShrink: 0, background: "#333",
+              }} />
+              <span style={{
+                flex: 1, marginLeft: 14,
+                fontWeight: 600, fontSize: 15, color: "white",
+              }}>{f.name}</span>
+              <div
+                onClick={() => setFollowed(prev => ({ ...prev, [f.name]: !prev[f.name] }))}
+                style={followed[f.name] ? {
+                  width: 96, textAlign: "center",
+                  padding: "7px 0", borderRadius: 20,
+                  border: "none", background: "white",
+                  fontSize: 13, fontWeight: 600, color: "#4a3ec6",
+                  cursor: "pointer", flexShrink: 0,
+                } : {
+                  width: 96, textAlign: "center",
+                  padding: "7px 0", borderRadius: 20,
+                  border: "1px solid rgba(255,255,255,0.18)",
+                  background: "rgba(255,255,255,0.06)",
+                  fontSize: 13, fontWeight: 600, color: "white",
+                  cursor: "pointer", flexShrink: 0,
+                }}
+              >{followed[f.name] ? "Following" : "Follow back"}</div>
+            </div>
+          ))}
+          <div style={{ height: "calc(20px + env(safe-area-inset-bottom, 0px))" }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FollowingSheet({ open, onClose }) {
+  const sheetRef   = useRef(null);
+  const touchStart = useRef(null);
+  const [unfollowed, setUnfollowed] = React.useState({});
+
+  if (!open) return null;
+
+  const onTouchStart = (e) => { touchStart.current = e.touches[0].clientY; };
+  const onTouchMove  = (e) => {
+    if (touchStart.current === null || !sheetRef.current) return;
+    const delta = e.touches[0].clientY - touchStart.current;
+    if (delta > 0) { sheetRef.current.style.transform = `translateY(${delta}px)`; sheetRef.current.style.transition = "none"; }
+  };
+  const onTouchEnd = (e) => {
+    if (touchStart.current === null || !sheetRef.current) return;
+    const delta = e.changedTouches[0].clientY - touchStart.current;
+    touchStart.current = null;
+    sheetRef.current.style.transition = "transform 0.22s ease";
+    if (delta > 80) { onClose(); } else { sheetRef.current.style.transform = "translateY(0)"; }
+  };
+
+  return (
+    <div style={{ position: "absolute", inset: 0, zIndex: 30 }}>
+      <div onClick={onClose} style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.55)", animation: "fadeIn 0.2s ease-out" }} />
+      <div
+        ref={sheetRef}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+        style={{
+          position: "absolute", bottom: 0, left: 0, right: 0,
+          maxHeight: "82%",
+          background: "#1a1a1a",
+          borderRadius: "20px 20px 0 0",
+          borderTop: "1px solid rgba(255,255,255,0.10)",
+          animation: "slideUp 0.28s cubic-bezier(0.32,0.72,0,1)",
+          boxShadow: "0 -4px 32px rgba(0,0,0,0.40)",
+          display: "flex", flexDirection: "column",
+          overflow: "hidden",
+        }}>
+        {/* drag handle */}
+        <div style={{ width: 36, height: 4, borderRadius: 2, background: "rgba(255,255,255,0.18)", margin: "12px auto 0", flexShrink: 0 }} />
+        {/* header */}
+        <div style={{
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          padding: "14px 20px 12px", borderBottom: "1px solid rgba(255,255,255,0.08)", flexShrink: 0,
+        }}>
+          <div>
+            <p style={{ margin: 0, fontWeight: 600, fontSize: 16, color: "white" }}>Following</p>
+            <p style={{ margin: "2px 0 0", fontSize: 12, color: "rgba(255,255,255,0.40)" }}>{FOLLOWING.length} accounts</p>
+          </div>
+          <button onClick={onClose} style={{
+            display: "flex", alignItems: "center", justifyContent: "center",
+            width: 44, height: 44, margin: "-8px -10px -8px 0",
+            background: "none", border: "none", cursor: "pointer",
+          }}>
+            <div style={{
+              width: 28, height: 28, borderRadius: "50%",
+              background: "rgba(255,255,255,0.08)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              color: "rgba(255,255,255,0.60)",
+            }}>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"/>
+              </svg>
+            </div>
+          </button>
+        </div>
+        {/* scrollable list */}
+        <div style={{ flex: 1, minHeight: 0, overflowY: "auto", scrollbarWidth: "none" }}>
+          {FOLLOWING.map((f, i) => (
+            <div key={f.name} style={{
+              display: "flex", alignItems: "center",
+              padding: "12px 20px",
+              borderBottom: i < FOLLOWING.length - 1 ? "1px solid rgba(255,255,255,0.06)" : "none",
+            }}>
+              <img src={f.img} alt={f.name} style={{
+                width: 48, height: 48, borderRadius: "50%",
+                objectFit: "cover", flexShrink: 0,
+                background: "#333",
+              }} />
+              <span style={{
+                flex: 1, marginLeft: 14,
+                fontWeight: 600, fontSize: 15, color: "white",
+              }}>{f.name}</span>
+              <div
+                onClick={() => setUnfollowed(prev => ({ ...prev, [f.name]: !prev[f.name] }))}
+                style={unfollowed[f.name] ? {
+                  width: 96, textAlign: "center",
+                  padding: "7px 0",
+                  borderRadius: 20,
+                  border: "1px solid rgba(255,255,255,0.18)",
+                  background: "rgba(255,255,255,0.06)",
+                  fontSize: 13, fontWeight: 600,
+                  color: "white",
+                  cursor: "pointer",
+                  flexShrink: 0,
+                } : {
+                  width: 96, textAlign: "center",
+                  padding: "7px 0",
+                  borderRadius: 20,
+                  border: "none",
+                  background: "white",
+                  fontSize: 13, fontWeight: 600,
+                  color: "#4a3ec6",
+                  cursor: "pointer",
+                  flexShrink: 0,
+                }}
+              >{unfollowed[f.name] ? "Follow" : "Following"}</div>
+            </div>
+          ))}
+          <div style={{ height: "calc(20px + env(safe-area-inset-bottom, 0px))" }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
 function MyProfileView() {
@@ -1859,8 +2128,10 @@ function MyProfileView() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [logoutConfirmOpen, setLogoutConfirmOpen] = useState(false);
   const [bioSheetOpen, setBioSheetOpen] = useState(false);
-  const [badgesSheetOpen,    setBadgesSheetOpen]    = useState(false);
-  const [commentsSheetOpen,  setCommentsSheetOpen]  = useState(false);
+  const [badgesSheetOpen,     setBadgesSheetOpen]     = useState(false);
+  const [commentsSheetOpen,   setCommentsSheetOpen]   = useState(false);
+  const [followersSheetOpen,  setFollowersSheetOpen]  = useState(false);
+  const [followingSheetOpen,  setFollowingSheetOpen]  = useState(false);
   const [charMenuOpen, setCharMenuOpen] = useState(false);
   const [charMenuChar, setCharMenuChar] = useState(null);
 
@@ -1870,7 +2141,7 @@ function MyProfileView() {
       <div className="profile-scroll">
         <RankBanner />
         <AvatarSection onReadMore={() => setBioSheetOpen(true)} onMenuOpen={() => setMenuOpen(true)} />
-        <StatsRow />
+        <StatsRow onFollowersOpen={() => setFollowersSheetOpen(true)} onFollowingOpen={() => setFollowingSheetOpen(true)} />
         <ActivePersonaCard />
         
         <TabBar active={activeTab} onChange={setActiveTab} />
@@ -1896,6 +2167,8 @@ function MyProfileView() {
       <BioSheet open={bioSheetOpen} onClose={() => setBioSheetOpen(false)} bio={PROFILE.bio} name={PROFILE.name} />
       <CharacterMenuSheet open={charMenuOpen} onClose={() => setCharMenuOpen(false)} character={charMenuChar} />
       <BadgesSheet open={badgesSheetOpen} onClose={() => setBadgesSheetOpen(false)} />
+      <FollowersSheet open={followersSheetOpen} onClose={() => setFollowersSheetOpen(false)} />
+      <FollowingSheet open={followingSheetOpen} onClose={() => setFollowingSheetOpen(false)} />
       {/* <CommentsSheet open={commentsSheetOpen} onClose={() => setCommentsSheetOpen(false)} /> */}
       {/* Bottom nav */}
       <div style={{
